@@ -1,0 +1,109 @@
+
+import 'package:flutter/material.dart';
+import 'package:mplpro/screen/header/appbar.dart';
+import 'package:mplpro/screen/header/headerTop.dart';
+import 'package:mplpro/utilis/boxSpace.dart';
+import 'package:mplpro/utilis/globlemargin.dart';
+
+class Step {
+  Step(
+    this.title,
+    this.body,
+    [this.isExpanded = false]
+  );
+  String title;
+  String body;
+  bool isExpanded;
+}
+
+Future<List<Step>> getSteps() async {
+  var _items = [
+    Step('Step 0: Install Flutter', 'Install Flutter development tools according to the official documentation.'),
+    Step('Step 1: Create a project', 'Open your terminal, run `flutter create <project_name>` to create a new project.'),
+    Step('Step 2: Run the app', 'Change your terminal directory to the project directory, enter `flutter run`.'),
+  ];
+  return Future<List<Step>>.delayed(const Duration(seconds: 2), () => _items);
+}
+
+class Steps extends StatelessWidget {
+  const Steps({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar:  CustomAppBar(
+        title: 'MPL',
+      ),
+        body: SingleChildScrollView(
+          child: Container(
+           
+            margin: GlobleglobleMargin.globleMargin,
+            child: Column(
+              children: [
+                 Simpletitlebtn(HeadName: "FAQ :-"),
+                 size20h,
+                 size20h,
+                 
+                FutureBuilder<List<Step>>(
+                  future: getSteps(),
+                  builder: (BuildContext context, AsyncSnapshot<List<Step>> snapshot) {
+                    if(snapshot.hasData) {
+                      return StepList(steps: snapshot.data ?? []);
+                    }
+                    else {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  }
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class StepList extends StatefulWidget {
+  final List<Step> steps;
+  const StepList({Key? key, required this.steps}) : super(key: key);
+  @override
+  State<StepList> createState() => _StepListState(steps: steps);
+}
+
+class _StepListState extends State<StepList> {
+  final List<Step> _steps;
+  _StepListState({required List<Step> steps}) : _steps = steps;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ExpansionPanelList(
+          expansionCallback: (int index, bool isExpanded) {
+            setState(() {
+              _steps[index].isExpanded = !isExpanded;
+            });
+          },
+          children: _steps.map<ExpansionPanel>((Step step) {
+            return ExpansionPanel(
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                return ListTile(
+                  title: Text(step.title),
+                );
+              },
+              body: ListTile(
+                title: Text(step.body),
+              ),
+              isExpanded: step.isExpanded,
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
