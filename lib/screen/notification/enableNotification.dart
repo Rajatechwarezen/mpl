@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:mplpro/utilis/AllColor.dart';
+import 'package:mplpro/utilis/fontstyle.dart';
 
 class MyNotificationEnable extends StatefulWidget {
   const MyNotificationEnable({super.key});
@@ -11,6 +15,34 @@ class MyNotificationEnable extends StatefulWidget {
 class _MyNotificationEnableState extends State<MyNotificationEnable> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    var forAndroid = false;
+    return SafeArea(
+      
+      child: Scaffold(
+        appBar: AppBar(),
+        body:           ListTile(
+                  trailing:Switch(
+      // thumb color (round icon)
+      activeColor: myColorRed,
+      activeTrackColor: Colors.cyan,
+      inactiveThumbColor: Colors.blueGrey.shade600,
+      inactiveTrackColor: Colors.grey.shade400,
+      splashRadius: 50.0,
+      // boolean variable value
+      value: forAndroid,
+      // changes the state of the switch
+      onChanged: (value) => setState(() => forAndroid = value),
+    ),
+                  leading: Icon(
+                      Icons.info), // Change the icon to a different policy icon
+                  title: Row(
+                    children: [
+                      Text('Notification All update ', style: CustomStyles.header2TextStyle),
+                   
+                    ],
+                  ),
+                
+                ), ),
+    );
   }
 }

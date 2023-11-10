@@ -54,7 +54,7 @@ class _MyNotiState extends State<MyNoti> {
              
                     children: [
 
-                      titlebtn(HeadName: "New", context1: context, Headno: 20, Routes: "/"),
+                      titlebtn(HeadName: "New", context1: context, Headno: 20, routes: "/"),
                          size20h,
                 Container(
           
@@ -104,7 +104,7 @@ class NotificationItem extends StatelessWidget {
       child:        Container(
               width: double.infinity,
              decoration: BoxDecoration(  
-              color: myColorWhite,
+                     border: border,
               borderRadius: boRadius5,
               ),
                 padding: EdgeInsets.all(10),

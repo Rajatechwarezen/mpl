@@ -32,3 +32,17 @@ Future<String> sendSMS(String phoneNumber, otp) async {
 
   }
 
+
+//globle date end time 
+
+Future<String> getGlobalTime() async {
+  final response = await http.get(Uri.parse('http://worldtimeapi.org/api/ip'));
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    final globalTime = data['utc_datetime'];
+    return globalTime;
+  } else {
+    throw Exception('Failed to fetch global time');
+  }
+}

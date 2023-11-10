@@ -4,44 +4,44 @@ import 'package:flutter/material.dart';
 import 'package:mplpro/utilis/AllColor.dart';
 
 class CustomStyles {
-  static TextStyle? verysmallTextStyle = TextStyle(
+  static TextStyle verysmallTextStyle = TextStyle(
   
     fontSize: 8,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
-  static TextStyle? smallTextStyle = TextStyle(
+  static TextStyle smallTextStyle = TextStyle(
   
     fontSize: 12,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
 
-  static TextStyle? headerTextStyle = TextStyle(
+  static TextStyle headerTextStyle = TextStyle(
   
     fontSize: 20,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
-  static TextStyle? header2TextStyle = TextStyle(
+  static TextStyle header2TextStyle = TextStyle(
   
     fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
-   static TextStyle? header3TextStyle = TextStyle(
+   static TextStyle header3TextStyle = TextStyle(
   
     fontSize: 15,
     fontWeight: FontWeight.w800,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
   // textExternel text
-  static TextStyle? textExternel =  TextStyle(
+  static TextStyle textExternel =  TextStyle(
       color: myColorDarkRed,
       fontFamily: "Roboto1",
       fontWeight: FontWeight.bold);
 
-  static TextStyle? textExternelgreen = TextStyle(
+  static TextStyle textExternelgreen = TextStyle(
       fontFamily: "Roboto1",
       color: myColorgreen,
       fontSize: 12,
@@ -56,26 +56,26 @@ class CustomStyles {
 
 // white font style
 class CustomStyleswhite {
-  static TextStyle? verysmallTextStyle = TextStyle(
+  static TextStyle verysmallTextStyle = TextStyle(
     color: myColorWhite,
     fontSize: 8,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
-  static TextStyle? smallTextStyle = TextStyle(
+  static TextStyle smallTextStyle = TextStyle(
     color: myColorWhite,
     fontSize: 12,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
 
-  static TextStyle? headerTextStyle = TextStyle(
+  static TextStyle headerTextStyle = TextStyle(
     color: myColorWhite,
     fontSize: 20,
     fontWeight: FontWeight.w700,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
-  static TextStyle? header2TextStyle = TextStyle(
+  static TextStyle header2TextStyle = TextStyle(
     color: myColorWhite,
     fontSize: 18,
     fontWeight: FontWeight.w400,

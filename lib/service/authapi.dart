@@ -1,15 +1,17 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:mplpro/screen/live/live.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   final String baseUrl =
-      'http://192.168.1.7:8000'; // Use "http" or "https" as needed
+      'https://mplproapi.techwarezen.co/'; // Use "http" or "https" as needed
   final Dio dio = Dio();
 
   ApiService();
-
+  List<LiveMatch> _liveMatches = [];
+  List<LiveMatch> get liveMatches => _liveMatches;
   Future<Map<String, dynamic>> userPostAllApi(
       {Map<String, dynamic>? data, uri}) async {
     final store = await SharedPreferences.getInstance();
@@ -97,13 +99,15 @@ class ApiService {
 
       final response = await dio.post('$uri', data: {"id": id});
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 ) {
         return {"data": response.data, "status": "200"};
       } else {
         return {"data": "nodata", "status": response.statusCode};
       }
+
+      
     } catch (e) {
-      throw Exception('Failed to make the API request: $e');
+      return {"data": "$e"};
     }
   }
   
@@ -116,7 +120,7 @@ userImageUpload({
       final store = await SharedPreferences.getInstance();
     final token = store.getString("token");
   final formData = FormData();
-  print("${panImage} --- ${id} --- ${url}");
+
   // Add the 'id' parameter to the formData
   formData.fields.add(MapEntry('id', id ?? ''));
 
@@ -151,5 +155,50 @@ userImageUpload({
     return "not-ok";
   }
 }
+
+userAllLive({Map<String, dynamic>? data, uri}) async {
+  final store = await SharedPreferences.getInstance();
+  final token = store.getString("token");
+  final id = store.getString("userId");
+
+  try {
+    dio.options.baseUrl = baseUrl;
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
+
+    final response = await dio.post(uri, data: {"id": id});
+
+    if (response.statusCode == 200) {
+      final responseData = response.data;
+
+      if (responseData['status'] == true && responseData['data'] != null) {
+        if (responseData['data'] is List) {
+          List<LiveMatch> matches = (responseData['data'] as List)
+              .map((json) => LiveMatch.fromJson(json))
+              .toList();
+
+          _liveMatches = matches;
+          return {"data": matches, "status": "200"};
+        } else if (responseData['data'] is Map) {
+          // Handle the case when data is a single match object
+          LiveMatch match = LiveMatch.fromJson(responseData['data']);
+          _liveMatches = [match];
+          return {"data": [match], "status": "200"};
+        } else {
+          return {"data": "Invalid data format: Unexpected data type", "status": "400"};
+        }
+      } else {
+        return {"data": "Invalid data format: Missing required fields", "status": "400"};
+      }
+    } else {
+      return {"data": "Failed to fetch live match", "status": response.statusCode.toString()};
+    }
+  } catch (e) {
+    return {"data": "$e"};
+  }
+}
+
 
 }

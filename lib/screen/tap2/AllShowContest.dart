@@ -1,123 +1,107 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
 import 'package:mplpro/screen/component/coundown.dart';
 import 'package:mplpro/screen/component/imageComponet.dart';
-
+import 'package:mplpro/screen/header/appbar.dart';
 import 'package:mplpro/screen/header/headerTop.dart';
+import 'package:mplpro/service/authapi.dart';
 import 'package:mplpro/utilis/AllColor.dart';
-
+import 'package:mplpro/utilis/alinement.dart';
+import 'package:mplpro/utilis/borderbox.dart';
 import 'package:mplpro/utilis/boxSpace.dart';
 import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:mplpro/utilis/globlemargin.dart';
 
-import '../../utilis/borderbox.dart';
+class AllShowContest extends StatefulWidget {
+  var data;
 
-class Mycontest extends StatefulWidget {
-  final  data;
-  final type;
-  const Mycontest({super.key, required this.data, required this.type});
+  AllShowContest({super.key, this.data});
 
   @override
-  State<Mycontest> createState() => _MycontestState();
+  State<AllShowContest> createState() => _AllShowContestState();
 }
 
-class _MycontestState extends State<Mycontest> {
-  @override
-  void initState() {
-    super.initState();
-    initDatabase();
-  }
-
+class _AllShowContestState extends State<AllShowContest> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-    titlebtn(
-          HeadName: "MY Contest match",
-          context1: context,
-          Headno: "See All",
-          routes: "/AllShowContest",
-        ),
-        size10h,
-        ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: widget.data.length,
-          itemBuilder: (context, index) {
-            Map<String, dynamic> item = widget.data[index];
+    final ApiService apiService = ApiService();
 
-            var match_date =item["match_date"];  //  jsonDecode(item["data"])["data"]["match_date"];
-            var match_time = item["match_time"]; // jsonDecode(item["data"])["data"]["match_time"];
-            switch (widget.type) {
-                   
+    return Scaffold(
+      appBar: CustomAppBar(title: ""),
+      body: Container(
+        margin: GlobleglobleMargin.globleMargin,
+        child: FutureBuilder(
+          future: apiService.userAllDoc(data: {}, uri: "/specific_user_matches"),
+          builder: (context, snapshot) {
+          
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While the future is still running, display a loading indicator
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              // If an error occurred, display an error message
+              return Text('Error: ${snapshot.error}');
+            } else {
+          
+              final data =
+                  (snapshot.data as Map<String, dynamic>)["data"]["result"];
+          
+         
+          
+               
+               
+                return Column(
+                  children: [
+                    Simpletitlebtn(
+                      HeadName: "MY Contest  All match ",
+                    ),
+                    size10h,
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> item =data[index];
                       
-              case 'upcomming':
-                  
-                if (getMatchStatus(
-                        1, match_date.toString(), match_time.toString()) !=
-                    "Match Over") {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed('/myContestStatus');
-                    },
-                    child: Container(
-                        height: 70,
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 10, left: 10),
-                        decoration: BoxDecoration(
-                            border: border, borderRadius: boRadiusAll),
-                        child: Column(children: [
-                          size10h,
-                          ImageSelect(
-                              Image1: "assets/ball.png",
-                              Image2: "assets/ball.png",
-                              data: item),
-                        ])),
-                  );
-                } else {
-                  return Text("");
-                }
+                    return    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child:
+                       GestureDetector(
+                            onTap: () {
+                              Get.toNamed('/myContestStatus');
+                            },
+                            child: Container(
+                          
+                                height: 70,
+                                padding: const EdgeInsets.only(
+                                    top: 5, bottom: 5, right: 10, left: 10),
+                                decoration: BoxDecoration(
+                                  
+                                    border: border, borderRadius: boRadiusAll),
+                                child: Column(children: [
+                                  size10h,
+                                  ImageSelect(
+                                      Image1: "assets/ball.png",
+                                      Image2: "assets/ball.png",
+                                      data: item),
+                                ])),
+                          ),
+                    );
+                     
+                     
+                       },
+                    ),
+                  ],
+                );
               
-              case 'finsh':
-
-            if (getMatchStatus(
-                        1, match_date.toString(), match_time.toString()) ==
-                    "Match Over") {
-                  return GestureDetector(
-                    onTap: () {
-                      Get.toNamed('/myContestStatus');
-                    },
-                    child: Container(
-                        height: 70,
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 10, left: 10),
-                        decoration: BoxDecoration(
-                            border: border, borderRadius: boRadiusAll),
-                        child: Column(children: [
-                          size10h,
-                          ImageSelect(
-                              Image1: "assets/ball.png",
-                              Image2: "assets/ball.png",
-                              data: item),
-                        ])),
-                  );
-                } else {
-                  return Text("");
-                }    
-                
-                  default:
-                return Text("");
+              
             }
           },
         ),
-      ],
+      ),
     );
   }
-
 
   ImageSelect({Image1, Image2, data}) {
     print(data);

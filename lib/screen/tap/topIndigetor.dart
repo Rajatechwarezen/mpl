@@ -37,7 +37,7 @@ class _IndigatorState extends State<Indigator> {
             margin: EdgeInsets.only(right: 10),
             child: Text(
               text,
-              style: TextStyle(fontSize: 11, color: isActive ?myColorRed: myColorGray,   ),
+              style: TextStyle(fontSize: 11, color: isActive ? myColorRed: myColorGray,   ),
             )),
         Row(
           children: [

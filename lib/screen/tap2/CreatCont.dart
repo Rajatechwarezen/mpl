@@ -45,7 +45,7 @@ class _CreateContState extends State<CreateCont> {
   @override
   Widget build(BuildContext context) {
     final ApiService apiService = ApiService();
-    print(data_of_id["data"]);
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Contest',

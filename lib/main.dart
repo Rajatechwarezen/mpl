@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mplpro/routes/allRoutes.dart';
 
 import 'package:get/get.dart';
+import 'package:mplpro/screen/component/networkingError.dart';
 import 'package:mplpro/utilis/AllColor.dart';
 
 import 'screen/component/darkmode.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
+ 
     return Obx(
       () => GetMaterialApp(
         themeMode: themeController.currentThemeMode.value,

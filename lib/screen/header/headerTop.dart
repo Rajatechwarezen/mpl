@@ -1,15 +1,18 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:mplpro/utilis/fontstyle.dart';
 
 import '../../utilis/AllColor.dart';
 
-titlebtn(
-    {required String HeadName,
-    String,
-    required BuildContext context1,
-    required Headno,
-    required Routes}) {
+
+Widget titlebtn({
+  required String? HeadName, // Add "?" for null safety
+  required BuildContext context1,
+  required dynamic Headno, // Change the type to "dynamic" for flexibility
+  required String? routes, // Add "?" for null safety
+}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -18,23 +21,25 @@ titlebtn(
         child: Column(
           children: [
             Row(
-              
               children: [
                 Text(
-                  HeadName,
-                  style:CustomStyles.headerTextStyle,
+                  HeadName ?? "Default Text", // Provide a default text if HeadName is null
+                  style: CustomStyles.headerTextStyle,
                 ),
-              
               ],
             ),
           ],
         ),
       ),
-        Text("($Headno)")
+      InkWell(
+        onTap: () {
+          Get.toNamed(routes?.toString() ?? "/home"); // Provide a default route if routes is null
+        },
+        child: Text("($Headno)"),
+      ),
     ],
   );
 }
-
 
 Simpletitlebtn(
     {required String HeadName,

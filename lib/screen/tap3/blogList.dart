@@ -81,8 +81,8 @@ class BlogList extends StatelessWidget {
                 margin: EdgeInsets.only(left: 5, right: 10, top: 20),
                 padding: EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                    color: themeController.isLightMode.value ? myColorWhite :  myColor,
-                    boxShadow: [boxshadow],
+                   border: border,
+                     
                     borderRadius: boRadiusAll),
                 child: ListTile(
                   leading: Image.asset(

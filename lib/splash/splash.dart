@@ -90,7 +90,8 @@ class _SplashScreenState extends State<SplashScreen>
       height: 70, // Set the height as needed
       width: 70, // Set the width as needed
     ),
-                        const  Text("MPLPRO",style: TextStyle(fontSize: 50,color: Colors.white,fontFamily: 'Roboto1',fontWeight: FontWeight.w900),),
+                       DefaultTextStyle(style: TextStyle(fontSize: 20,color: Colors.white,fontFamily: 'Roboto1',fontWeight: FontWeight.w900),
+                       child: Text("MPLPRO")),
                       ],
                     )
                   )

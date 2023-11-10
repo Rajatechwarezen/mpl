@@ -13,11 +13,14 @@ import 'package:mplpro/screen/profile/editProfile.dart';
 import 'package:mplpro/screen/profile/profile.dart';
 import 'package:mplpro/screen/setting/Setting.dart';
 import 'package:mplpro/screen/setting/more.dart';
+import 'package:mplpro/screen/tap2/AllShowContest.dart';
 import 'package:mplpro/screen/tap2/ContList.dart';
 import 'package:mplpro/screen/tap2/CreatCont.dart';
 import 'package:mplpro/screen/tap2/MyContDetail.dart';
 import 'package:mplpro/screen/tap2/mycontestStatus.dart';
+import 'package:mplpro/screen/wallet/AllHestory.dart';
 import 'package:mplpro/screen/wallet/wallet.dart';
+import 'package:mplpro/screen/wallet/withdraw.dart';
 import 'package:mplpro/splash/intro.dart';
 import 'package:mplpro/splash/splash.dart';
 
@@ -52,5 +55,10 @@ var allRutes = [
   GetPage(name: "/tarmAnd", page: () => TarmAnd()),
   GetPage(name: "/mySeeMore", page: () => SeeMore()),
   GetPage(name: "/notification", page: () => MyNotificationEnable()),
-  GetPage(name: "/myContestStatus", page: () => MyCricketContestStatus())
+  GetPage(name: "/myContestStatus", page: () => MyCricketContestStatus()),
+  GetPage(name: "/withdraw", page: () => WithdrawPage()),
+    GetPage(name: "/hestoryWallet", page: () => AllHestory()),
+
+        GetPage(name: "/AllShowContest", page: () => AllShowContest())
+
 ];

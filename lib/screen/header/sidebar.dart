@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mplpro/screen/component/pop.dart';
+import 'package:mplpro/screen/component/shimmer.dart';
 import 'package:mplpro/screen/header/headerTop.dart';
 import 'package:mplpro/utilis/AllColor.dart';
 import 'package:mplpro/utilis/alinement.dart';
@@ -75,15 +76,15 @@ Drawer myDrawer(context, id) {
                     ],
                   );
                 } else {
-                  return const Text('No match data available');
+                  return showShummer2;
                 }
               } else {
                 return const Text('No data available');
               }
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator(); // Display a loading indicator
+              return   showShummer2; // Display a loading indicator
             } else {
-              return const Text('Data retrieval is not in progress');
+              return    showShummer2;
             }
           },
         ),

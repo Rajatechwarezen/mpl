@@ -12,6 +12,7 @@ import 'package:mplpro/utilis/borderbox.dart';
 import 'package:mplpro/utilis/boxSpace.dart';
 import 'package:mplpro/utilis/fontstyle.dart';
 import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ContList extends StatefulWidget {
   const ContList({super.key});
@@ -57,7 +58,7 @@ class _ContListState extends State<ContList>
                 child: titlebtn(
                     HeadName: "Discounted Entry Matches",
                     Headno: "20",
-                    Routes: '/',
+                    routes: '/',
                     context1: context),
               ),
               Container(
@@ -69,7 +70,6 @@ class _ContListState extends State<ContList>
                       "match_id": data_of_id["poolId"]
                     }, uri: '/show_pools'),
                     builder: (context, snapshot) {
-                    
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -97,12 +97,11 @@ class _ContListState extends State<ContList>
                                           },
                                           child: GestureDetector(
                                             onTap: () {
-                                              Get.toNamed('/myCont',arguments: {
-                                                                            "id":
-                                                                                data_of_id["id"],
-                                                                            "data":
-                                                                                result[index],
-                                                                          });
+                                              Get.toNamed('/myCont',
+                                                  arguments: {
+                                                    "id": data_of_id["id"],
+                                                    "data": result[index],
+                                                  });
                                             },
                                             child: Container(
                                                 height: 146,
@@ -161,28 +160,65 @@ class _ContListState extends State<ContList>
                                                                 ),
                                                                 ElevatedButton(
                                                                   onPressed:
-                                                                      () async{
+                                                                      () async {
+                                                                            final store =
+                                                                        await SharedPreferences
+                                                                            .getInstance();
+
+                                                                    final id = store
+                                                                        .getString(
+                                                                            "userid");
                                                                     ApiService
                                                                         apiservice =
                                                                         ApiService();
-                                                                    var data =
-                                                                        await apiservice
-                                                                            .userAllDoc(uri: "/fetch_balance");
-                                                                      
-                                                                    if (int.parse(data["data"]["balance"].toString()) > 10  ) {
-                                                                      Get.toNamed(
-                                                                          '/createCont',
-                                                                          arguments: {
-                                                                            "id":
-                                                                                data_of_id["id"],
-                                                                            "data":
-                                                                                result[index],
-                                                                          });
-                                                                    }else{
-                                                                        CustomToaster.showWarning(context, "Somethisng want wrrog because your balance is not enough");
-                                                                   
-                                                                      Get.toNamed("/addMoney");
-                                                                    }
+                                                                    var data = await apiservice
+                                                                        .userAllDoc(
+                                                                            uri:
+                                                                                "/fetch_balance");
+
+
+                                                                          print("$data ==============================");
+                                                                               
+                                                                   if( data["data"]["error"] == "Your wallet is not created" ){
+   CustomToaster.showWarning(
+                                                                            context,
+                                                                            data["data"]["error"]);
+                                                                   }else{
+                                                                    
+                                                                    
+                                                                      final dynamic
+                                                                          balance =
+                                                                          data['data']
+                                                                              ?[
+                                                                              'balance'];
+                                                                      if (int.parse(
+                                                                              balance.toString()) >
+                                                                          10) {
+                                                                        Get.toNamed(
+                                                                            '/createCont',
+                                                                            arguments: {
+                                                                              "id": id,
+                                                                              "data": match,
+                                                                            });
+
+
+                                                                            
+                                                                      } else {
+                                                                        CustomToaster.showWarning(
+                                                                            context,
+                                                                            "Somethisng want wrrog because your balance is not enough");
+
+                                                                        Get.toNamed(
+                                                                            "/addMoney");
+                                                                    
+                                                                      }
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                    
+                                                                   }
+                                                                    
                                                                   },
                                                                   style: ElevatedButton
                                                                       .styleFrom(
@@ -231,7 +267,7 @@ class _ContListState extends State<ContList>
                                                                 ),
                                                               ],
                                                             ),
-                                                            Column(
+                                                            const Column(
                                                               children: [
                                                                 Text(
                                                                   "₹2888 sprot ",

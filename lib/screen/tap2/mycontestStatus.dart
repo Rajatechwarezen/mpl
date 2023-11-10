@@ -6,6 +6,7 @@ import 'package:mplpro/screen/component/tabar.dart';
 import 'package:mplpro/screen/tap/topIndigetor.dart';
 
 import 'package:mplpro/screen/tap2/mycontest.dart';
+import 'package:mplpro/service/authapi.dart';
 import 'package:mplpro/utilis/AllColor.dart';
 import 'package:mplpro/utilis/alinement.dart';
 import 'package:mplpro/utilis/globlemargin.dart';
@@ -21,7 +22,7 @@ class MyCricketContestStatus extends StatefulWidget {
 
 class _MyCricketContestStatusState extends State<MyCricketContestStatus> with TickerProviderStateMixin {
    final ThemeController themeController = Get.put(ThemeController());
-
+ApiService apiservice = ApiService();
 
   late TabController _tabController;
   @override
@@ -38,6 +39,7 @@ class _MyCricketContestStatusState extends State<MyCricketContestStatus> with Ti
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: CustomAppBar(
         title: 'MyContest',
@@ -82,10 +84,10 @@ class _MyCricketContestStatusState extends State<MyCricketContestStatus> with Ti
                       controller: _tabController,
                       children: [
      ///upcomming
-               FutureBuilder<List<Map<String, dynamic>>>(
-            future: getAllData(),
+               FutureBuilder(
+            future: apiservice.userAllDoc(data: {}, uri: "/user_upcoming_matches"),
             builder: (context, snapshot) {
-
+         
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While the future is still running, display a loading indicator
                 return CircularProgressIndicator();
@@ -94,9 +96,64 @@ class _MyCricketContestStatusState extends State<MyCricketContestStatus> with Ti
                 return Text('Error: ${snapshot.error}');
               } else {
                 // Data has been successfully fetched
-                final data = snapshot.data as List<Map<String, dynamic>>;
+                 final data =(snapshot.data as Map<String, dynamic>)["data"]["result"];
+    
+               if(data !=  [] && data != null   ){
+                 return Mycontest(data: data, type: "upcomming",);
+               }else{
+                return Text("");
+               }
+              }
+            },
+          ),
 
-                return Mycontest(data: data);
+
+
+                 FutureBuilder(
+            future:  apiservice.userAllDoc(data: {}, uri: "/user_live_matches"),
+            builder: (context, snapshot) {
+         
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While the future is still running, display a loading indicator
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If an error occurred, display an error message
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Data has been successfully fetched
+                   final data =(snapshot.data as Map<String, dynamic>)["data"]["result"];
+    
+
+               if(data !=  [] && data != null   ){
+                 return Mycontest(data: data, type: "live",);
+               }else{
+                return Text("");
+               }
+              }
+            },
+          ),
+
+                 
+                        FutureBuilder(
+            future:apiservice.userAllDoc(data: {}, uri: "/user_result_matches"),
+            builder: (context, snapshot) {
+         
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While the future is still running, display a loading indicator
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If an error occurred, display an error message
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Data has been successfully fetched
+                     final data =(snapshot.data as Map<String, dynamic>)["data"]["result"];
+    
+
+               if(data !=  [] && data != null   ){
+                 return Mycontest(data: data, type: "finsh",);
+               }else{
+                return Text("");
+               }
               }
             },
           ),

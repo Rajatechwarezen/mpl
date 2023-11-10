@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mplpro/screen/component/headNavi.dart';
+import 'package:mplpro/screen/component/shimmer.dart';
 import 'package:mplpro/screen/component/treamsHeading.dart';
 import 'package:mplpro/service/authapi.dart';
 import 'package:mplpro/utilis/AllColor.dart';
+import 'package:mplpro/utilis/fontstyle.dart';
 import 'package:mplpro/utilis/globlemargin.dart';
 
 class Myaboutus extends StatefulWidget {
@@ -26,13 +28,13 @@ class _MyaboutusState extends State<Myaboutus> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
+                     return showShummer;
               }
 
               final data = (snapshot.data as Map<String, dynamic>)['data'];
               if (data != null) {
                 final result = data["result"][0];
-                print("${result} -----------");
+              
                 return Column(
               children: [
                    Stack(
@@ -152,12 +154,13 @@ class _MyaboutusState extends State<Myaboutus> {
   
              
               } else {
-                return Text('No data available');
+                return   DefaultTextStyle( style: CustomStyles.smallTextStyle,
+                child: Text('No data available'));
               }
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return CircularProgressIndicator(); // Display a loading indicator
             } else {
-              return Text('Data retrieval is not in progress');
+              return DefaultTextStyle( style: CustomStyles.smallTextStyle,child: Text('Data retrieval is not in progress'));
             }
       
              

@@ -19,6 +19,11 @@ Border border = Border.all(
   width: 0.5,
   style: BorderStyle.solid,
 );
+Border border2 = Border.all(
+  color: myColorGray,
+  width: 0.6,
+  style: BorderStyle.solid,
+);
 Border borderRed = Border.all(
   color: myColorRed,
   width: 0.5,

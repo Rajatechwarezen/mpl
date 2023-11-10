@@ -21,7 +21,9 @@ myFunction({myColor, text, textColor}) {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(text, style: textColor),
+        DefaultTextStyle(
+          style: textColor,
+          child: Text(text, )),
       ],
     ),
   );

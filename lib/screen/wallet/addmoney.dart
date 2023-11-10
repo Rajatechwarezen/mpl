@@ -352,22 +352,18 @@ class _MyUpiState extends State<MyUpi> {
     final id = store.getString("userId");
     switch (status) {
       case UpiPaymentStatus.SUCCESS:
-        print('Transaction Successful');
-             var data =    apiService.userallType(data: {
-          "id": id,
-          "trans_id": txnId,
-          "money": widget.transactionAmount,
-          "payment_status": status
-        }, uri: "/add_money");
         break;
       case UpiPaymentStatus.SUBMITTED:
         print('Transaction Submitted');
         break;
       case UpiPaymentStatus.FAILURE:
-        print('Transaction Failed');
+        var data = await apiService.userallType(data: {
+          "id": id,
+          "trans_id": txnId,
+          "money": widget.transactionAmount,
+          "payment_status": "SUCCESS"
+        }, uri: "/add_money");
 
-          
-       
         break;
       default:
         print('Received an Unknown transaction status');

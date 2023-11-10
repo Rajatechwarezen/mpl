@@ -6,6 +6,7 @@ import 'package:mplpro/screen/component/darkmode.dart';
 import 'package:mplpro/screen/component/imageComponet.dart';
 import 'package:mplpro/screen/wallet/wallet.dart';
 import 'package:mplpro/utilis/boxSpace.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/AllColor.dart';
 
@@ -35,19 +36,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               size10w,
               InkWell(
-                onTap: () {
-                  Get.toNamed("/home");
+                onTap: () async {
+                  final store = await SharedPreferences.getInstance();
+            var id = store.getString('userId');
+                  Get.toNamed("/home",arguments: id);
                 },
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: true,
-                  maxLines: 2,
-                  style: TextStyle(
-                    color: myColorRed,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'Roboto1',
+                child: DefaultTextStyle(
+                    style: TextStyle(
+                      color: myColorRed,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      fontFamily: 'Roboto1',
+                    ),
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    maxLines: 2,
+                  
                   ),
                 ),
               ),

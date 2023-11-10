@@ -25,6 +25,9 @@ class _ShowProfileState extends State<ShowProfile> {
     double fem = MediaQuery.of(context).size.width / baseWidth;
 
     final dynamic data = Get.arguments as dynamic;
+
+  
+
     if (data != null) {
       final ApiService apiService = ApiService();
       return SafeArea(
@@ -100,7 +103,7 @@ class _ShowProfileState extends State<ShowProfile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    data["name"] ?? "",
+                                    data["name"] ?? "No Name",
                                     style: CustomStyles.textExternel,
                                   ),
                                 ]),
@@ -116,8 +119,7 @@ class _ShowProfileState extends State<ShowProfile> {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: boRadius5,
-                      boxShadow: [boxshadow],
-                      color: myColorWhite,
+                  
                       border: Border.all(color: myColorRed),
                     ),
                     child: Column(children: [
@@ -142,14 +144,14 @@ class _ShowProfileState extends State<ShowProfile> {
                             "Phone",
                             style: CustomStyles.header2TextStyle,
                           ),
-                          Text(data["phone"], style: CustomStyles.textExternel)
+                          Text(data["phone"]?? "No Phone", style: CustomStyles.textExternel)
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Email", style: CustomStyles.header2TextStyle),
-                          Text(data["email"], style: CustomStyles.textExternel)
+                          Text(data["email"]?? "No Email", style: CustomStyles.textExternel)
                         ],
                       )
                     ]),
@@ -164,8 +166,7 @@ class _ShowProfileState extends State<ShowProfile> {
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: boRadius5,
-                      boxShadow: [boxshadow],
-                      color: myColorWhite,
+                  
                       border: Border.all(color: myColorRed),
                     ),
                     child: Column(children: [
@@ -190,7 +191,7 @@ class _ShowProfileState extends State<ShowProfile> {
                             "Bank name",
                             style: CustomStyles.header2TextStyle,
                           ),
-                          Text(data["bank_name"] ?? "",
+                          Text(data["bank_name"] ?? "No Name",
                               style: CustomStyles.textExternel)
                         ],
                       ),
@@ -199,7 +200,7 @@ class _ShowProfileState extends State<ShowProfile> {
                         children: [
                           Text("Bank Accuont Number",
                               style: CustomStyles.header2TextStyle),
-                          Text(data["account_no"] ?? " ",
+                          Text(data["account_no"]?? "No Accuont",
                               style: CustomStyles.textExternel)
                         ],
                       )
@@ -220,8 +221,7 @@ class _ShowProfileState extends State<ShowProfile> {
                             height: 70,
                             decoration: BoxDecoration(
                               borderRadius: boRadius5,
-                              boxShadow: [boxshadow],
-                              color: myColorWhite,
+                        
                               border: Border.all(color: myColorRed),
                             ),
                             child: ListTile(
@@ -247,7 +247,7 @@ class _ShowProfileState extends State<ShowProfile> {
 
                                       if (data != null) {
                                         final result =
-                                            data["result"][0]["pan_approval"];
+                                            data["result"][0]["pan_approval"].toString();
 
                                         if (result != null) {
                                           return Row(

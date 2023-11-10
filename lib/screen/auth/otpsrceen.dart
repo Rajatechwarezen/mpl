@@ -66,20 +66,26 @@ class _OtpPageState extends State<OtpPage> {
               const SizedBox(
                 height: 25,
               ),
-              const Text(
-                "OTP Verification",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+          
+                
+                
+          const Text(
+                  "OTP Verification",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+            
               const SizedBox(
                 height: 10,
               ),
-              const Text(
-                "We need to register your phone without getting started!",
-                style: TextStyle(
-                  fontSize: 16,
+          const Text(
+                  "We need to register your phone without getting started!",
+                
+                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+            
               const SizedBox(
                 height: 30,
               ),
@@ -152,17 +158,22 @@ class _OtpPageState extends State<OtpPage> {
                         print("password is woeng$e ");
                       }
                     },
-                    child: Text("Verify Your Phone OTP")),
-              ),
+                    child:
+                   
+                  Text("Verify Your Phone OTP",      style: TextStyle(color: myColorWhite),))),
+    
               Row(
                 children: [
                   TextButton(
                       onPressed: () {
                         Get.toNamed("/login");
                       },
-                      child: Text(
-                        "Edit Phone Number ?",
-                        style: TextStyle(color: myColor),
+                      child: DefaultTextStyle(
+                         style: TextStyle(color: myColor),
+                        child: Text(
+                          "Edit Phone Number ?",
+                         
+                        ),
                       ))
                 ],
               )

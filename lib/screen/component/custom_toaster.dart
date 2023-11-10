@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:mplpro/utilis/fontstyle.dart';
 
 class CustomToaster {
   static void showSuccess(BuildContext context, String message) {
@@ -13,9 +16,37 @@ class CustomToaster {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: DefaultTextStyle(style: CustomStyles.smallTextStyle,
+        child: Text(message)),
         backgroundColor: color,
       ),
     );
   }
 }
+
+
+//networking 
+showDialogBox(context,isAlertSet,setState,isDeviceConnected) => showCupertinoDialog<String>(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: DefaultTextStyle(style:  CustomStyles.smallTextStyle,
+          child: const Text('No Connection')),
+          content:
+      Text('Please check your internet connectivity',style: CustomStyles.smallTextStyle,),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context, 'Cancel');
+                setState(() => isAlertSet = false);
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected && isAlertSet == false) {
+                  showDialogBox(context,isAlertSet,setState,isDeviceConnected);
+                  setState(() => isAlertSet = true);
+                }
+              },
+              child:  Text('OK',   style : CustomStyles.smallTextStyle,) 
+            ),
+          ],
+        ),
+      );

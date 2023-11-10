@@ -1,68 +1,65 @@
+import 'dart:convert';
 
-  import 'package:sqflite/sqflite.dart';
+import 'package:mplpro/screen/component/custom_toaster.dart';
+import 'package:mplpro/service/authapi.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-
 
 late Database database;
 
-  // Insert a record into the database
- 
- 
-  // Initialize the database
-  Future<void> initDatabase() async {
-    database = await openDatabase(
-      join(await getDatabasesPath(), 'cricket_data.db'),
-      onCreate: (db, version) {
-        return db.execute(
-          'CREATE TABLE cricket_data(id INTEGER PRIMARY KEY AUTOINCREMENT, teamName TEXT)',
-        );
-      },
-      version: 1,
-    );
-  }
+// Insert a record into the database
 
-Future<void> insertData(String name) async {
+ApiService apiservice = ApiService();
+// Initialize the database
+Future<void> initDatabase() async {
+  database = await openDatabase(
+    join(await getDatabasesPath(), 'cricket_data.db'),
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE cricket_data(id INTEGER PRIMARY KEY AUTOINCREMENT, teamName TEXT, data TEXT)',
+      );
+    },
+    version: 1,
+  );
+}
+
+Future<void> insertData({context, String? name, data}) async {
   final existingRecords = await database!.query('cricket_data');
 
+  var myApi = await apiservice.userMatchList(data: {
+    "id": data["id"].toString(),
+    "pool_id": data["data"]["id"].toString(),
+    "team": data["data"]["team_b"].toString()
+  }, uri: "/get_poolId");
 
-  if (existingRecords.isEmpty) {
-    // No record exists, insert the data
-print(" No record exists, insert the data");
+  if (myApi["message"] == "Repeated entity") {
+    CustomToaster.showWarning(context, "Repeated entity");
+  }
+   if(myApi["data"] == "unable to enter in the match"){
+    CustomToaster.showWarning(context, "Unable to enter in the match");
+  }
+   if(myApi["data"] != null) {
 
-     await database!.insert(
+    await database!.insert(
       'cricket_data',
-      {'teamName': name},
+      {'teamName': name, "data": jsonEncode(data)},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  } else {
-    // Record exists, update it
-    await database!.update(
-      'cricket_data',
-      {'teamName': name},
-      where: 'id = ?', // You may need to modify this condition
-      whereArgs: [existingRecords.first['id']], // Update the first existing record
-    );
+      CustomToaster.showSuccess(context, "Successfull entity ${myApi["data"]}");
   }
 }
 
-  
+// Retrieve all records from the database
+Future<List<Map<String, dynamic>>> getAllData() async {
+  return await database!.query('cricket_data');
+}
 
-    // Retrieve all records from the database
-  Future<List<Map<String, dynamic>>> getAllData() async {
-    return await database!.query('cricket_data');
-  }
+// deleteDB(id) async {
+//   int recordIdToDelete = id; // Change this to the ID you want to update
 
-
-  deleteDB() async {
-int recordIdToDelete = 2; // Change this to the ID you want to update
-
-await database.delete(
-  'cricket_data',
-  where: 'id = ?',
-  whereArgs: [recordIdToDelete],
-);
-
-
-
-  }
+//   await database.delete(
+//     'cricket_data',
+//     where: 'id = ?',
+//     whereArgs: [recordIdToDelete],
+//   );
+// }

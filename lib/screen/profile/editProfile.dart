@@ -1,14 +1,12 @@
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mplpro/screen/component/custom_toaster.dart';
 import 'package:mplpro/screen/header/appbar.dart';
 import 'package:mplpro/screen/header/headerTop.dart';
 import 'package:mplpro/service/authapi.dart';
 import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
 import 'package:mplpro/utilis/boxSpace.dart';
 import 'package:mplpro/utilis/fontstyle.dart';
 import 'package:mplpro/utilis/globlemargin.dart';
@@ -113,10 +111,14 @@ class _EditProfileState extends State<EditProfile> {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         callApi(
-                            nameController: nameController,
-                            bankAccountController: bankNameController,
-                            emailController: emailController,
-                            ifscCodeController: ifscCodeController);
+                          context: context,
+                            nameController: nameController.text,
+                               emailController: emailController.text,
+                           phoneController:phoneController.text,
+                            bankNameController:bankNameController.text,
+                           bankAccountController: bankNameController.text,
+                            ifscCodeController: ifscCodeController.text,
+                            );
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -142,28 +144,35 @@ callApi(
     {context,
     nameController,
     emailController,
+    phoneController,
     bankAccountController,
     ifscCodeController,
     bankNameController}) async {
   ApiService apiService = ApiService();
   final store = await SharedPreferences.getInstance();
   var id = store.getString("userId");
-  Get.toNamed("/home", arguments: id);
+
   var editData = {
-    "id": id,
-    "name": nameController.text,
-    "email": emailController.text
+    "id": id.toString(),
+    "name":nameController,
+    "email": emailController
   };
 
   var editDataBank = {
-    "id": id,
-    "account_no": bankAccountController.text,
-    "ifsc_code": ifscCodeController.text,
-    "bank_name": bankNameController.text
+    "id": id.toString(),
+    "account_no":bankAccountController,
+    "ifsc_code":ifscCodeController,
+    "bank_name": bankNameController
   };
 
-  apiService.userallType(uri: "/user_update_profile", data: editData);
-  apiService.userallType(uri: "/add_bank_account", data: editDataBank);
-
-  CustomToaster.showSuccess(context, "Profile Eidit Successfull ");
+   var dataProfile = apiService.userallType(uri: "/user_update_profile", data: editData);
+  var bankProfile = apiService.userallType(uri: "/add_bank_account", data: editDataBank);
+if(dataProfile !=  "nodata" && bankProfile !=  "nodata" ){
+    
+   CustomToaster.showSuccess(context, "Profile Eidit Successfull ");
+   Get.toNamed("/home", arguments: id);
+}else{
+     CustomToaster.showWarning(context, "Something wrrog  ");
+}
+ 
 }

@@ -111,6 +111,22 @@ class _MySettingState extends State<MySetting> {
                   
                 },
               ),
+
+              
+                 ListTile(
+                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(
+                    Icons.info), // Change the icon to a different policy icon
+                title: Row(
+                  children: [
+                    Text('Withdraw', style: CustomStyles.header2TextStyle),
+                 
+                  ],
+                ),
+                onTap: () {
+                  Get.toNamed('/withdraw');
+                },
+              ),
         ],
           )
         ]),

@@ -1,12 +1,17 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mplpro/Db/insertData.dart';
+import 'package:mplpro/screen/component/custom_toaster.dart';
 
 import 'package:mplpro/screen/component/tabar.dart';
 
 import 'package:mplpro/screen/header/appbar.dart';
 
 import 'package:mplpro/screen/header/sidebar.dart';
+import 'package:mplpro/screen/live/live.dart';
 import 'package:mplpro/screen/tap/topIndigetor.dart';
 import 'package:mplpro/screen/tap1/upcomming.dart';
 
@@ -17,7 +22,7 @@ import 'package:mplpro/utilis/alinement.dart';
 
 import 'package:mplpro/utilis/globlemargin.dart';
 
-import 'component/darkmode.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -27,6 +32,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+ late StreamSubscription subscription;
+  bool isDeviceConnected = false;
+  bool isAlertSet = false;
 
   final String? id = Get.arguments as String?;
 
@@ -35,14 +43,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void initState() {
     initDatabase();
     super.initState();
-
+getConnectivity();
     _tabController = TabController(
       length: 2,
       vsync: this,
     );
   }
+ getConnectivity() =>
+      subscription = Connectivity().onConnectivityChanged.listen(
+        (ConnectivityResult result) async {
+          isDeviceConnected = await InternetConnectionChecker().hasConnection;
+          if (!isDeviceConnected && isAlertSet == false) {
+            // ignore: use_build_context_synchronously
+            showDialogBox(context,isAlertSet,setState,isDeviceConnected);
+            setState(() => isAlertSet = true);
+          }
+        },
+      );
+    
 
-  @override
+     @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
@@ -75,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         tabs: [
                           MyTab("Cricket"),
                           MyTab("Blog"),
+                          MyTab("Live")
                         ],
                       ),
                     ),
@@ -102,6 +123,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             child: BlogList(blogs: blogList),
                           ),
                         ),
+                      
+                      LiveScores()
                       ],
                     ),
                   ),

@@ -113,14 +113,14 @@ class _KYCState extends State<KYC> {
  return  FutureBuilder(
     future: apiService.userAllDoc( uri:'/kyc_pan_user_get'),
     builder:(context, snapshot){
-     
+     print("${snapshot.data} ============================================================");
           if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               }
 
         final data = (snapshot.data as Map<String, dynamic>)["data"]?["result"]?[0]?["pan_img"];
-   print(data);
+
 
 if (data != null) {
  
@@ -152,7 +152,7 @@ if (data != null) {
                             height: 15,
                             decoration:  BoxDecoration(
                               image: DecorationImage(
-                                image:  NetworkImage("http://192.168.1.9:8000/$data"),
+                                image:  NetworkImage("http://192.168.1.6:8000/$data"),
                                 //  const AssetImage("assets/pancard.png"),
                                 fit: BoxFit.contain,
                               ),
@@ -201,7 +201,7 @@ if (data != null) {
 
     
  return  FutureBuilder(
-    future: apiService.userAllDoc( uri:'/kyc_pan_user_get'),
+    future: apiService.userAllDoc( uri:'/kyc_addhar_user_get'),
     builder:(context, snapshot){
      
           if (snapshot.connectionState == ConnectionState.done) {
@@ -209,8 +209,8 @@ if (data != null) {
                 return Text('Error: ${snapshot.error}');
               }
 
-        final data = (snapshot.data as Map<String, dynamic>)["data"]?["result"]?[0]?["pan_img"];
-   print(data);
+        final data = (snapshot.data as Map<String, dynamic>)["data"]?["result"]?[0]?["addhar_img"];
+      
 
 if (data != null) {
  
@@ -242,7 +242,7 @@ if (data != null) {
                             height: 15,
                             decoration:  BoxDecoration(
                               image: DecorationImage(
-                                image:  NetworkImage("http://192.168.1.9:8000/$data"),
+                                image:  NetworkImage("http://192.168.1.6:8000/$data"),
                                 //  const AssetImage("assets/pancard.png"),
                                 fit: BoxFit.contain,
                               ),
