@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 class CustomToaster {
   static void showSuccess(BuildContext context, String message) {

@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:mplpro/screen/live/live.dart';
+import 'package:WINNER11/screen/live/live.dart';
+import 'package:WINNER11/screen/live/live_model.dart';
+import 'package:WINNER11/screen/tap3/blog_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../screen/tap3/blogList.dart';
 
 class ApiService {
   final String baseUrl =
@@ -12,6 +17,8 @@ class ApiService {
   ApiService();
   List<LiveMatch> _liveMatches = [];
   List<LiveMatch> get liveMatches => _liveMatches;
+  
+
   Future<Map<String, dynamic>> userPostAllApi(
       {Map<String, dynamic>? data, uri}) async {
     final store = await SharedPreferences.getInstance();
@@ -155,25 +162,21 @@ userImageUpload({
     return "not-ok";
   }
 }
-
+///////////////////////////////////////////////              Live  /////////////////////////////////////////////////////////
 userAllLive({Map<String, dynamic>? data, uri}) async {
-  final store = await SharedPreferences.getInstance();
-  final token = store.getString("token");
-  final id = store.getString("userId");
+
 
   try {
     dio.options.baseUrl = baseUrl;
-    dio.options.headers = {
-      'Content-Type': 'application/json',
-      'Authorization': token,
-    };
+   
 
-    final response = await dio.post(uri, data: {"id": id});
+    final response = await dio.get(uri);
 
     if (response.statusCode == 200) {
-      final responseData = response.data;
+      final responseData = json.decode(response.data);
 
-      if (responseData['status'] == true && responseData['data'] != null) {
+     if (responseData['status'] == true && responseData['data'] != null) {
+      
         if (responseData['data'] is List) {
           List<LiveMatch> matches = (responseData['data'] as List)
               .map((json) => LiveMatch.fromJson(json))
@@ -199,6 +202,39 @@ userAllLive({Map<String, dynamic>? data, uri}) async {
     return {"data": "$e"};
   }
 }
+  List<Blog> _liveBlog = [];
+  List<Blog> get liveBolg => _liveBlog;
+int currentPage = 1;
+//////////////////////////////////////////////        blog        /////////////////////////////////////////////////////////
+userAllblog() async {
+
+
+     final url = 'http://apicricketchampion.in/webservices/news/20122cd5366e30f0847774c9d7698d30';
+
+      try {
+        final response = await dio.get(url);
+
+        if (response.statusCode == 200) {
+          final data =json.decode(response.data);
+          final List<dynamic> newsList = data['data'];
+
+
+
+             for (dynamic news in newsList) {
+              final Blog newsItem = Blog.fromJson(news);
+              _liveBlog.add(newsItem);
+            
+            }
+           
+        } else {
+          throw Exception('Failed to fetch news list');
+        }
+      } catch (error) {
+        print('Error: $error');
+      }
+}
 
 
 }
+
+

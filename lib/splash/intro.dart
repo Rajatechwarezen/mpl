@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {

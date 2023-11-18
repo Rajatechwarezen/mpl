@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 import '../../utilis/AllColor.dart';
 

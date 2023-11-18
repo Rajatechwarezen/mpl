@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 class SubSectionTitle extends StatelessWidget {
   final String title;

@@ -2,14 +2,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import 'package:flutter/material.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../component/profileContainer.dart';

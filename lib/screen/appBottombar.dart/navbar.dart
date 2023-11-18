@@ -1,10 +1,13 @@
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 import 'package:flutter/material.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/home.dart';
-import 'package:mplpro/screen/wallet/wallet.dart';
-import 'package:mplpro/utilis/alinement.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/home.dart';
+import 'package:WINNER11/screen/wallet/wallet.dart';
+import 'package:WINNER11/utilis/alinement.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:get/get.dart';
 
 class NavBarMusicWidget extends StatefulWidget {
   const NavBarMusicWidget({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
   void setState(VoidCallback callback) {
     super.setState(callback);
   }
-
+  final ThemeController themeController = Get.put(ThemeController());
   @override
   void initState() {
     super.initState();
@@ -32,40 +35,44 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 60,
+    return Obx(
+  () =>Container(
+        width: double.infinity,
+        height: 60,
       decoration: BoxDecoration(
-        border: borderT,
-      ),
-      child: Stack(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextButtonapp(text: "Play", icon: 'assets/icon/play.png'),
-              TextButtonapp(text: "Criket", icon: 'assets/icon/cricket.png'),
-              TextButtonapp(text: "Offer", icon: 'assets/icon/offer.png'),
-                  
-             GestureDetector(
-              onTap: (){
-                  showModalBottomSheet<void>(
-                                showDragHandle: true,
-                                useSafeArea : true,
-                                isScrollControlled: true,
-                                elevation: 8,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return MyWallet();
-                                });
-              },
-              child:  TextButtonapp(text: "Wallet", icon: 'assets/icon/wallet.png'),
-             )
-            ],
-          ),
-        ],
+        color:  themeController.isLightMode.value ?  myColorWhite : myColor,
+        boxShadow:  [  themeController.isLightMode.value ?  boxshadow2 : boxdark]),
+        child: Stack(
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: (){
+                    Get.toNamed("/blog");
+                  },
+                  child:  TextButtonapp(text: "Bolg", icon:  themeController.isLightMode.value ?    'assets/icon/cricket.png':  'assets/icon/cricket-dark.png'),
+               ),
+               InkWell(
+                  onTap: (){
+                            Get.toNamed('/myContestStatus');
+                  },
+               child: TextButtonapp(text: "Matchs", icon:  themeController.isLightMode.value ?    'assets/icon/play.png': 'assets/icon/play-dark.png' ),
+               ),
+
+                  InkWell(
+                  onTap: (){
+                            Get.toNamed('/live');
+                  },
+               child: TextButtonapp(text: "Live", icon:  themeController.isLightMode.value ?   'assets/icon/live2.png'  :'assets/icon/live.png'  ),
+                  ) ,   
+               TextButtonapp(text: "Wallet", icon: themeController.isLightMode.value ?     'assets/icon/wallet.png' : 'assets/icon/wallet-dark.png')
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -73,28 +80,18 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
 
 // ignore: non_constant_identifier_names
 TextButtonapp({text, icon}) {
-  return TextButton(
-    onPressed: () {
-      // Add your onPressed logic here
-    },
-    style: TextButton.styleFrom(
-      backgroundColor:
-          Colors.transparent, // Make the button background transparent
-      padding: EdgeInsets.zero, // Remove the default padding
-    ),
-    child: Column(
-      crossAxisAlignment: AlignmentCenterCross,
-      mainAxisAlignment: AlignmentCenterMain,
-      children: [
-        ImageComponent(myWidth: 30.0, myheight: 30.0, myImage: icon),
+  return Column(
+    crossAxisAlignment: AlignmentCenterCross,
+    mainAxisAlignment: AlignmentCenterMain,
+    children: [
+      ImageComponent(myWidth: 30.0, myheight: 30.0, myImage: icon),
 
-        const SizedBox(
-            width: 8), // Adjust the spacing between icon and label as needed
-        Text(
-          text.toString(),
-          style: CustomStyles.textExternel,
-        ),
-      ],
-    ),
+      const SizedBox(
+          width: 8), // Adjust the spacing between icon and label as needed
+      Text(
+        text.toString(),
+        style: CustomStyles.textExternel,
+      ),
+    ],
   );
 }

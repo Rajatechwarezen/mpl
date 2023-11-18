@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/component/pop.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/screen/tap/topIndigetor.dart';
-import 'package:mplpro/screen/tap1/upcomming.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/component/pop.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/screen/tap/topIndigetor.dart';
+import 'package:WINNER11/screen/tap1/upcomming.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ContList extends StatefulWidget {
@@ -45,7 +45,7 @@ class _ContListState extends State<ContList>
     final ApiService apiService = ApiService();
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'MPL',
+          title: 'WINNER11',
         ),
         body: SingleChildScrollView(
           child: SafeArea(
@@ -175,10 +175,7 @@ class _ContListState extends State<ContList>
                                                                         .userAllDoc(
                                                                             uri:
                                                                                 "/fetch_balance");
-
-
-                                                                          print("$data ==============================");
-                                                                               
+          
                                                                    if( data["data"]["error"] == "Your wallet is not created" ){
    CustomToaster.showWarning(
                                                                             context,

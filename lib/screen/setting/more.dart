@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
 
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 import '../header/sidebar.dart';
 import '../../utilis/globlemargin.dart';

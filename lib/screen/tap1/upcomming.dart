@@ -1,18 +1,21 @@
+import 'package:WINNER11/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/component/shimmer.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/screen/tap2/mycontest.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/Db/insertData.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/component/shimmer.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/screen/tap2/mycontest.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
+import '../../banner/banner.dart';
 import '../component/coundown.dart';
+import '../live/scrollerlive.dart';
 
 class UpComming extends StatefulWidget {
   const UpComming({super.key});
@@ -25,276 +28,327 @@ class _UpCommingState extends State<UpComming> {
   @override
   void initState() {
     super.initState();
-    initDatabase();
+    // initDatabase();
   }
 
+  int _currentSlide = 0;
+  final ThemeController themeController = Get.put(ThemeController());
   final ApiService apiService = ApiService();
   final String? id = Get.arguments as String?;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        FutureBuilder(
-          future: apiService.userAllDoc(uri: "/user_upcoming_matches"),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // While the future is still running, display a loading indicator
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              // If an error occurred, display an error message
-              return Text('Error: ${snapshot.error}');
-            } else  {
-          
-      if(snapshot.data != null){
+    return FutureBuilder(
+      future: apiService.userAllDoc(uri: "/user_upcoming_matches"),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is still running, display a loading indicator
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // If an error occurred, display an error message
+          return Text('Error: ${snapshot.error}');
+        } else {
+          if (snapshot.data != null) {
             // Data has been successfully fetched
-              final data =(snapshot.data as Map<String, dynamic>)["data"]["result"];
-    
-                
-              // ignore: unnecessary_null_comparison
-              return data.toString() != "[]"
-                  ? Mycontest(
-                      data: data,
-                      type: "upcomming",
-                    )
-                  : const Text("");
-      }else{
-       return const Text("");
-      }
-          
-            }
-          },
-        ),
-        size20h,
-        Simpletitlebtn(HeadName: "Upcomming Matches"),
-        size10h,
-        FutureBuilder(
-          future:
-              apiService.userMatchList(data: {"id": id}, uri: '/show_matches'),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return showShummer;
-              }
+            final data =
+                (snapshot.data as Map<String, dynamic>)["data"]["result"];
 
-              final data = (snapshot.data as Map<String, dynamic>)['data'];
-              if (data != null) {
-                final result = data["result"];
-                if (result != null) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        border: border2, borderRadius: boRadiusAll),
-                    height: 500,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2.0),
-                      child: ListView.builder(
-                        itemCount: result.length,
-                        itemBuilder: (context, index) {
-                          final match = result[index];
-                          if (getMatchStatus(1, match["match_date"].toString(),
-                                  match["match_time"]) ==
-                              "Match Over") {
-                            return GestureDetector(
-                              onTap: () {
-                                CustomToaster.showWarning(
-                                    context, "Match Match Over that ");
+            return Column(
+              children: [
+                  data.toString() != "[]"
+                      ? Mycontest(
+                          data: data,
+                          type: "upcomming",
+                        )
+                      : const Text(""),
+                  size20h,
+                   FutureBuilder(
+                    future: apiService.userAllDoc(uri: "/user_banner"),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError || snapshot.data == null) {
+                        return Text(
+                            'Error: ${snapshot.error ?? "No data available"}');
+                      } else {
+                        var banners = (snapshot.data
+                            as Map<String, dynamic>)['data']["result"];
+
+                        return BannerAdd(
+                            banners: banners, currentSlide: _currentSlide);
+                      }
+                    },
+                  ),
+              
+                  size10h,
+                 
+                  Simpletitlebtn(HeadName: "Upcomming Matches"),
+                  size10h,
+
+                
+                FutureBuilder(
+                  future: apiService
+                      .userMatchList(data: {"id": id}, uri: '/show_matches'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return showShummer;
+                      }
+
+                      final data =
+                          (snapshot.data as Map<String, dynamic>)['data'];
+                      if (data != null) {
+                        final result = data["result"];
+                        if (result != null) {
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: result.length,
+                              itemBuilder: (context, index) {
+                                final match = result[index];
+                                if (getMatchStatus(
+                                        1,
+                                        match["match_date"].toString(),
+                                        match["match_time"]) ==
+                                    "Match Over") {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      CustomToaster.showWarning(
+                                          context, "Match Match Over that ");
+                                    },
+                                    child: Obx(() =>  Container(
+                                          height: 180,
+                                          margin: EdgeInsets.only(top: 20 ),
+                                          padding: const EdgeInsets.only(
+                                              top: 10,
+                                              bottom: 5,
+                                              right: 10,
+                                              left: 10),
+                                          decoration: BoxDecoration(
+                                              border: border,
+                                              color: themeController.isLightMode.value ? myColorWhite :myColor,
+                                              boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
+                                              borderRadius: boRadiusAll),
+                                          child: Container(
+                                            child: Column(children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                      height: 30,
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/banner.png"),
+                                                            fit: BoxFit.fill,
+                                                            alignment: Alignment
+                                                                .centerRight),
+                                                      ),
+                                                      child: Container(
+                                                          width: 260,
+                                                          child: Text(
+                                                            "${match['series']}",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ))),
+                                                  const Column(
+                                                    children: [
+                                                      Icon(Icons.tv),
+                                                    ],
+                                                  ),
+                                                  const Column(
+                                                    children: [
+                                                      Icon(Icons.access_alarm),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              size10h,
+                                              ImageColoum(
+                                                  Image1: match['match_flag_a'],
+                                                  Image2: match['match_flag_b'],
+                                                  short_nameA:
+                                                      match["sort_name_a"],
+                                                  short_nameB:
+                                                      match["sort_name_b"],
+                                                  long_nameA: match["team_a"],
+                                                  long_nameB: match["team_b"],
+                                                  matchData:
+                                                      match["match_date"],
+                                                  matchtime:
+                                                      match["match_time"]),
+                                              Divider(),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: 250,
+                                                    height: 40,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/banner1.png"),
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          left: 15.0),
+                                                      child: Text(
+                                                        "MEGA ₹1 Core",
+                                                        style: CustomStyles
+                                                            .textExternel,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                          )),
+                                    ),
+                                  );
+                                } else {
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.toNamed('/contList', arguments: {
+                                        "poolId": match["match_id"],
+                                        "id": id
+                                      });
+                                    },
+                                    child: Obx ( () =>  Container(
+                                          height: 180,
+                                          margin: EdgeInsets.only(top: 20),
+                                          padding: const EdgeInsets.only(
+                                              top: 10,
+                                              bottom: 5,
+                                              right: 10,
+                                              left: 10),
+                                          decoration: BoxDecoration(
+                                              border: border,
+                                                color: themeController.isLightMode.value ? myColorWhite : myColor,
+                                                boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
+                                              
+                                              borderRadius: boRadiusAll),
+                                          child: Container(
+                                            child: Column(children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                      height: 30,
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/banner.png"),
+                                                            fit: BoxFit.fill,
+                                                            alignment: Alignment
+                                                                .centerRight),
+                                                      ),
+                                                      child: Container(
+                                                          width: 260,
+                                                          child: Text(
+                                                            "${match['series']}",
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ))),
+                                                  const Column(
+                                                    children: [
+                                                      Icon(Icons.tv),
+                                                    ],
+                                                  ),
+                                                  const Column(
+                                                    children: [
+                                                      Icon(Icons.access_alarm),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              size10h,
+                                              ImageColoum(
+                                                  Image1: match['match_flag_a'],
+                                                  Image2: match['match_flag_b'],
+                                                  short_nameA:
+                                                      match["sort_name_a"],
+                                                  short_nameB:
+                                                      match["sort_name_b"],
+                                                  long_nameA: match["team_a"],
+                                                  long_nameB: match["team_b"],
+                                                  matchData:
+                                                      match["match_date"],
+                                                  matchtime:
+                                                      match["match_time"]),
+                                              Divider(),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: 250,
+                                                    height: 40,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/banner1.png"),
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: 10.0,
+                                                          left: 15.0),
+                                                      child: Text(
+                                                        "MEGA ₹1 Core",
+                                                        style: CustomStyles
+                                                            .textExternel,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ]),
+                                          )),
+                                    ),
+                                  );
+                                }
                               },
-                              child: Container(
-                                  height: 180,
-                                  margin: EdgeInsets.only(top: 20),
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 5, right: 10, left: 10),
-                                  decoration: BoxDecoration(
-                                      border: border,
-                                      borderRadius: boRadiusAll),
-                                  child: Container(
-                                    child: Column(children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/banner.png"),
-                                                    fit: BoxFit.fill,
-                                                    alignment:
-                                                        Alignment.centerRight),
-                                              ),
-                                              child: Container(
-                                                  width: 260,
-                                                  child: Text(
-                                                    "${match['series']}",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ))),
-                                          const Column(
-                                            children: [
-                                              Icon(Icons.tv),
-                                            ],
-                                          ),
-                                          const Column(
-                                            children: [
-                                              Icon(Icons.access_alarm),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      size10h,
-                                      ImageColoum(
-                                          Image1: match['match_flag_a'],
-                                          Image2: match['match_flag_b'],
-                                          short_nameA: match["sort_name_a"],
-                                          short_nameB: match["sort_name_b"],
-                                          long_nameA: match["team_a"],
-                                          long_nameB: match["team_b"],
-                                          matchData: match["match_date"],
-                                          matchtime: match["match_time"]),
-                                      Divider(),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 250,
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/banner1.png"),
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.0, left: 15.0),
-                                              child: Text(
-                                                "MEGA ₹1 Core",
-                                                style:
-                                                    CustomStyles.textExternel,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ]),
-                                  )),
-                            );
-                          } else {
-                            return InkWell(
-                              onTap: () {
-                                Get.toNamed('/contList', arguments: {
-                                  "poolId": match["match_id"],
-                                  "id": id
-                                });
-                              },
-                              child: Container(
-                                  height: 180,
-                                  margin: EdgeInsets.only(top: 20),
-                                  padding: const EdgeInsets.only(
-                                      top: 10, bottom: 5, right: 10, left: 10),
-                                  decoration: BoxDecoration(
-                                      border: border,
-                                      borderRadius: boRadiusAll),
-                                  child: Container(
-                                    child: Column(children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                              height: 30,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10,
-                                                      vertical: 5),
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/banner.png"),
-                                                    fit: BoxFit.fill,
-                                                    alignment:
-                                                        Alignment.centerRight),
-                                              ),
-                                              child: Container(
-                                                  width: 260,
-                                                  child: Text(
-                                                    "${match['series']}",
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ))),
-                                          const Column(
-                                            children: [
-                                              Icon(Icons.tv),
-                                            ],
-                                          ),
-                                          const Column(
-                                            children: [
-                                              Icon(Icons.access_alarm),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      size10h,
-                                      ImageColoum(
-                                          Image1: match['match_flag_a'],
-                                          Image2: match['match_flag_b'],
-                                          short_nameA: match["sort_name_a"],
-                                          short_nameB: match["sort_name_b"],
-                                          long_nameA: match["team_a"],
-                                          long_nameB: match["team_b"],
-                                          matchData: match["match_date"],
-                                          matchtime: match["match_time"]),
-                                      Divider(),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 250,
-                                            height: 40,
-                                            decoration: const BoxDecoration(
-                                              image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/banner1.png"),
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.0, left: 15.0),
-                                              child: Text(
-                                                "MEGA ₹1 Core",
-                                                style:
-                                                    CustomStyles.textExternel,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ]),
-                                  )),
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  );
-                } else {
-                  return showShummer;
-                }
-              } else {
-                return showShummer;
-              }
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Display a loading indicator
-            } else {
-              return showShummer;
-            }
-          },
-        ),
-      ],
+                            ),
+                          );
+                        } else {
+                          return showShummer;
+                        }
+                      } else {
+                        return showShummer;
+                      }
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return CircularProgressIndicator(); // Display a loading indicator
+                    } else {
+                      return showShummer;
+                    }
+                  },
+                ),
+              ],
+            );
+            // ignore: unnecessary_null_comparison
+          } else {
+            return const Text("");
+          }
+        }
+      },
     );
   }
 }

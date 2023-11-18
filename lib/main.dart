@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mplpro/routes/allRoutes.dart';
+import 'package:WINNER11/routes/allRoutes.dart';
 
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/networkingError.dart';
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 
 import 'screen/component/darkmode.dart';
 
@@ -32,7 +31,14 @@ class MyApp extends StatelessWidget {
         initialRoute: '/splash',
         debugShowCheckedModeBanner: false,
         getPages: allRutes,
-        title: 'mplPro',
+        title: 'WINNER11',
+          builder: (context, child) {
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      child: child!,
+    );
+   },
+
       ),
     );
   }

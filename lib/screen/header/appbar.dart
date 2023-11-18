@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:mplpro/screen/component/darkmode.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/wallet/wallet.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/wallet/wallet.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/AllColor.dart';
@@ -25,7 +25,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx(
+  () => Container(
       child: Padding(
         padding: const EdgeInsets.only(top: 7.0),
         child: AppBar(
@@ -61,11 +62,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           foregroundColor: themeController.isLightMode.value ? myColor: myColorWhite,
           actions: [
-            ImageComponent(
-              myWidth: 50.0,
-              myheight: 50.0,
-              myImage:themeController.isLightMode.value ? "assets/icon/lang.png" : "assets/icon/lang2.png",
-            ),
+     
             GestureDetector(
               onTap: () {
                 showModalBottomSheet<void>(
@@ -99,6 +96,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
-    );
-  }
+    )
+ ); }
 }

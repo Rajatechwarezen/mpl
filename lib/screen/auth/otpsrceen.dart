@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:get/get.dart';
-import 'package:mplpro/DataGet/formGet.dart';
-import 'package:mplpro/routes/Api.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/DataGet/formGet.dart';
+import 'package:WINNER11/routes/Api.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../service/authapi.dart';

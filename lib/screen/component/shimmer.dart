@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
 import 'package:shimmer/shimmer.dart';
 
 var showShummer = Shimmer.fromColors(

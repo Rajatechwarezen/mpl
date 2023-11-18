@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
 
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 class ShowProfile extends StatefulWidget {
   static const routeName = "showProfile";

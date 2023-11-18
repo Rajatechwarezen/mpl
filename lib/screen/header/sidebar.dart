@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/pop.dart';
-import 'package:mplpro/screen/component/shimmer.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/alinement.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/screen/component/pop.dart';
+import 'package:WINNER11/screen/component/shimmer.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/alinement.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service/authapi.dart';

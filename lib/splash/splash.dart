@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
+import 'package:WINNER11/Db/insertData.dart';
 
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utilis/AllColor.dart';
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen>
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _animationController.forward();
     super.initState();
-      initDatabase();
+
    
     _loadWidget();
   }
@@ -81,18 +81,16 @@ class _SplashScreenState extends State<SplashScreen>
       margin: GlobleglobleMargin.Margin10R,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/ball.png"),
+          image: AssetImage("assets/splash.png"),
           fit: BoxFit.fill,
         ),
         borderRadius: boRadiusAll,
      
       ),
-      height: 70, // Set the height as needed
-      width: 70, // Set the width as needed
+      height: 150, // Set the height as needed
+      width:160, // Set the width as needed
     ),
-                       DefaultTextStyle(style: TextStyle(fontSize: 20,color: Colors.white,fontFamily: 'Roboto1',fontWeight: FontWeight.w900),
-                       child: Text("MPLPRO")),
-                      ],
+                       ],
                     )
                   )
                 ),

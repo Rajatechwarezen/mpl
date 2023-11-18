@@ -1,6 +1,6 @@
  import 'package:flutter/material.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 import '../../utilis/AllColor.dart';
 MyTab(name) {

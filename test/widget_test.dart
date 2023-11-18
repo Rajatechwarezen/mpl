@@ -8,8 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:mplpro/main.dart';
-import 'package:mplpro/splash/splash.dart';
+import 'package:WINNER11/main.dart';
+import 'package:WINNER11/splash/splash.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

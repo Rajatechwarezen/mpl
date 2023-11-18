@@ -1,18 +1,19 @@
 import 'dart:convert';
 
+import 'package:WINNER11/screen/component/darkmode.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
-import 'package:mplpro/screen/component/coundown.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
+import 'package:WINNER11/Db/insertData.dart';
+import 'package:WINNER11/screen/component/coundown.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
 
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 import '../../utilis/borderbox.dart';
 
@@ -29,8 +30,10 @@ class _MycontestState extends State<Mycontest> {
   @override
   void initState() {
     super.initState();
-    initDatabase();
+   
   }
+
+  final ThemeController themeController = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +67,24 @@ class _MycontestState extends State<Mycontest> {
                     onTap: () {
                       Get.toNamed('/myContestStatus');
                     },
-                    child: Container(
-                        height: 70,
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 10, left: 10),
-                        decoration: BoxDecoration(
-                            border: border, borderRadius: boRadiusAll),
-                        child: Column(children: [
-                          size10h,
-                          ImageSelect(
-                              Image1: "assets/ball.png",
-                              Image2: "assets/ball.png",
-                              data: item),
-                        ])),
+                    child: Obx(
+                           ()=> Container(
+                          height: 70,
+                          padding: const EdgeInsets.only(
+                              top: 5, bottom: 5, right: 10, left: 10),
+                          decoration: BoxDecoration(
+                             color: themeController.isLightMode.value ? myColorWhite :myColor,
+                                                  boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
+                                               
+                              border: border, borderRadius: boRadiusAll),
+                          child: Column(children: [
+                            size10h,
+                            ImageSelect(
+                                Image1: "assets/ball.png",
+                                Image2: "assets/ball.png",
+                                data: item),
+                          ])),
+                    ),
                   );
                 } else {
                   return Text("");
@@ -91,19 +99,24 @@ class _MycontestState extends State<Mycontest> {
                     onTap: () {
                       Get.toNamed('/myContestStatus');
                     },
-                    child: Container(
-                        height: 70,
-                        padding: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 10, left: 10),
-                        decoration: BoxDecoration(
-                            border: border, borderRadius: boRadiusAll),
-                        child: Column(children: [
-                          size10h,
-                          ImageSelect(
-                              Image1: "assets/ball.png",
-                              Image2: "assets/ball.png",
-                              data: item),
-                        ])),
+                    child:  Obx(
+                           ()=> Container(
+                          height: 70,
+                          padding: const EdgeInsets.only(
+                              top: 5, bottom: 5, right: 10, left: 10),
+                          decoration: BoxDecoration(
+                        color: themeController.isLightMode.value ? myColorWhite :myColor,
+                                                  boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
+                                               
+                              border: border, borderRadius: boRadiusAll),
+                          child: Column(children: [
+                            size10h,
+                            ImageSelect(
+                                Image1: "assets/ball.png",
+                                Image2: "assets/ball.png",
+                                data: item),
+                          ])),
+                    ),
                   );
                 } else {
                   return Text("");
@@ -120,7 +133,7 @@ class _MycontestState extends State<Mycontest> {
 
 
   ImageSelect({Image1, Image2, data}) {
-    print(data);
+  
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -162,13 +175,13 @@ class _MycontestState extends State<Mycontest> {
                       height: 40.0,
                       width: 40.0,
                       decoration: BoxDecoration(
-                          color: data["selected_team"] == data["team_a_short"]
+                          color: data["selected_team"] == data["team_a"]
                               ? myColorGray.withOpacity(0.5)
                               : Colors.transparent,
 
 
                           borderRadius: BorderRadius.circular(100)),
-                      child: data["selected_team"] == data["team_a_short"]
+                      child: data["selected_team"] == data["team_a"]
                           ? Icon(
                               Icons.check,
                               size: 30,
@@ -257,11 +270,11 @@ class _MycontestState extends State<Mycontest> {
                   height: 40.0,
                   width: 40.0,
                   decoration: BoxDecoration(
-                      color: data["selected_team"] == data["team_a_short"]
+                      color: data["selected_team"] == data["team_b"]
                           ? myColorGray.withOpacity(0.5)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(100)),
-                  child: data["selected_team"].toString() ==  data["team_a_short"]
+                  child: data["selected_team"].toString() ==  data["team_b"]
                       ? Icon(
                           Icons.check,
                           size: 30,

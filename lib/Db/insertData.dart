@@ -1,30 +1,30 @@
 import 'dart:convert';
 
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/service/authapi.dart';
+// import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-late Database database;
+// late Database database;
 
 // Insert a record into the database
 
 ApiService apiservice = ApiService();
-// Initialize the database
-Future<void> initDatabase() async {
-  database = await openDatabase(
-    join(await getDatabasesPath(), 'cricket_data.db'),
-    onCreate: (db, version) {
-      return db.execute(
-        'CREATE TABLE cricket_data(id INTEGER PRIMARY KEY AUTOINCREMENT, teamName TEXT, data TEXT)',
-      );
-    },
-    version: 1,
-  );
-}
+// // Initialize the database
+// Future<void> initDatabase() async {
+//   database = await openDatabase(
+//     join(await getDatabasesPath(), 'cricket_data.db'),
+//     onCreate: (db, version) {
+//       return db.execute(
+//         'CREATE TABLE cricket_data(id INTEGER PRIMARY KEY AUTOINCREMENT, teamName TEXT, data TEXT)',
+//       );
+//     },
+//     version: 1,
+//   );
+// }
 
 Future<void> insertData({context, String? name, data}) async {
-  final existingRecords = await database!.query('cricket_data');
+  // final existingRecords = await database!.query('cricket_data');
 
   var myApi = await apiservice.userMatchList(data: {
     "id": data["id"].toString(),
@@ -40,19 +40,15 @@ Future<void> insertData({context, String? name, data}) async {
   }
    if(myApi["data"] != null) {
 
-    await database!.insert(
-      'cricket_data',
-      {'teamName': name, "data": jsonEncode(data)},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+  
       CustomToaster.showSuccess(context, "Successfull entity ${myApi["data"]}");
   }
 }
 
 // Retrieve all records from the database
-Future<List<Map<String, dynamic>>> getAllData() async {
-  return await database!.query('cricket_data');
-}
+// Future<List<Map<String, dynamic>>> getAllData() async {
+//   return await database!.query('cricket_data');
+// }
 
 // deleteDB(id) async {
 //   int recordIdToDelete = id; // Change this to the ID you want to update

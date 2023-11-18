@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/tap3/newData.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/tap3/blog_model.dart';
+import 'package:WINNER11/screen/tap3/newData.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 class NewsLayout extends StatelessWidget {
-  final MyNews newsData;
+  final Blog newsData;
 
   NewsLayout({required this.newsData});
 
@@ -15,7 +16,7 @@ class NewsLayout extends StatelessWidget {
 
     return Scaffold(
       appBar:CustomAppBar(
-        title: 'MPL',
+        title: 'WINNER11',
       ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -24,7 +25,7 @@ class NewsLayout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(newsData.image),
+                Image.network(newsData.image),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -40,59 +41,63 @@ class NewsLayout extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: newsData.content.length,
-                  itemBuilder: (context, index) {
-                    final content = newsData.content[index];
-                    if (content.startsWith('<i>') && content.endsWith('</i>')) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          content.substring(3, content.length - 4),
-                          style: TextStyle(fontStyle: FontStyle.italic),
-                        ),
-                      );
-                    } else if (content.startsWith('<b>') &&
-                        content.endsWith('</b>')) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          content.substring(3, content.length - 4),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    } else if (content.startsWith('<a href=') &&
-                        content.endsWith('</a>')) {
-                      final linkText = content.substring(
-                        content.indexOf('">') + 2,
-                        content.length - 4,
-                      );
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: InkWell(
-                          onTap: () {
-                            // Handle link tap
-                          },
-                          child: Text(
-                            linkText,
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(content),
-                      );
-                    }
-                  },
-                ),
-              ],
+    ListView.builder(
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(),
+  itemCount: newsData.content.length,
+  itemBuilder: (context, index) {
+    final content = newsData.content[index];
+
+    if (content.startsWith('<i>') && content.endsWith('</i>')) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          content.substring(3, content.length - 4),
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      );
+    } else if (content.startsWith('<b>') && content.endsWith('</b>')) {
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          content.substring(3, content.length - 4),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
+    } else if (content.startsWith('<a href=') && content.endsWith('</a>')) {
+      final linkText = content.substring(
+        content.indexOf('">') + 2,
+        content.length - 4,
+      );
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: InkWell(
+          onTap: () {
+            // Handle link tap
+          },
+          child: Text(
+            linkText,
+            style: const TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+      );
+    } else {
+      // Remove <p> tags
+      final cleanedContent = content.replaceAll('<p>', '').replaceAll('</p>', '');
+ final cleanedContent1 = cleanedContent.replaceAll('&nbsp;', ' ').replaceAll('&nbsp;', ' ');
+     final cleanedContent2 = cleanedContent1.replaceAll('&#39;', '.').replaceAll('&#39;', '.');
+
+      return Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(cleanedContent2),
+      );
+    }
+  },
+),
+           ],
             ),
           ),
               ),

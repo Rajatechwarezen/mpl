@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 
 teamA_B({Image1, Image2 , data}) {
   return Row(

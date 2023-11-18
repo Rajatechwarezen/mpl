@@ -1,28 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:WINNER11/screen/live/live.dart';
+import 'package:WINNER11/screen/tap3/myFullBlog.dart';
+
 import 'package:get/get.dart';
-import 'package:mplpro/screen/KYC/kyc.dart';
-import 'package:mplpro/screen/aboutTerm&Condition/Tream&con.dart';
-import 'package:mplpro/screen/aboutTerm&Condition/aboutus.dart';
-import 'package:mplpro/screen/aboutTerm&Condition/faq.dart';
-import 'package:mplpro/screen/auth/login.dart';
-import 'package:mplpro/screen/auth/otpsrceen.dart';
-import 'package:mplpro/screen/home.dart';
-import 'package:mplpro/screen/notification/enableNotification.dart';
-import 'package:mplpro/screen/notification/noti.dart';
-import 'package:mplpro/screen/profile/editProfile.dart';
-import 'package:mplpro/screen/profile/profile.dart';
-import 'package:mplpro/screen/setting/Setting.dart';
-import 'package:mplpro/screen/setting/more.dart';
-import 'package:mplpro/screen/tap2/AllShowContest.dart';
-import 'package:mplpro/screen/tap2/ContList.dart';
-import 'package:mplpro/screen/tap2/CreatCont.dart';
-import 'package:mplpro/screen/tap2/MyContDetail.dart';
-import 'package:mplpro/screen/tap2/mycontestStatus.dart';
-import 'package:mplpro/screen/wallet/AllHestory.dart';
-import 'package:mplpro/screen/wallet/wallet.dart';
-import 'package:mplpro/screen/wallet/withdraw.dart';
-import 'package:mplpro/splash/intro.dart';
-import 'package:mplpro/splash/splash.dart';
+import 'package:WINNER11/screen/KYC/kyc.dart';
+import 'package:WINNER11/screen/aboutTerm&Condition/Tream&con.dart';
+import 'package:WINNER11/screen/aboutTerm&Condition/aboutus.dart';
+import 'package:WINNER11/screen/aboutTerm&Condition/faq.dart';
+import 'package:WINNER11/screen/auth/login.dart';
+import 'package:WINNER11/screen/auth/otpsrceen.dart';
+import 'package:WINNER11/screen/home.dart';
+import 'package:WINNER11/screen/notification/enableNotification.dart';
+import 'package:WINNER11/screen/notification/noti.dart';
+import 'package:WINNER11/screen/profile/editProfile.dart';
+import 'package:WINNER11/screen/profile/profile.dart';
+import 'package:WINNER11/screen/setting/Setting.dart';
+import 'package:WINNER11/screen/setting/more.dart';
+import 'package:WINNER11/screen/tap2/AllShowContest.dart';
+import 'package:WINNER11/screen/tap2/ContList.dart';
+import 'package:WINNER11/screen/tap2/CreatCont.dart';
+import 'package:WINNER11/screen/tap2/MyContDetail.dart';
+import 'package:WINNER11/screen/tap2/mycontestStatus.dart';
+import 'package:WINNER11/screen/wallet/AllHestory.dart';
+import 'package:WINNER11/screen/wallet/wallet.dart';
+import 'package:WINNER11/screen/wallet/withdraw.dart';
+import 'package:WINNER11/splash/intro.dart';
+import 'package:WINNER11/splash/splash.dart';
 
 import '../screen/wallet/addmoney.dart';
 
@@ -57,8 +59,9 @@ var allRutes = [
   GetPage(name: "/notification", page: () => MyNotificationEnable()),
   GetPage(name: "/myContestStatus", page: () => MyCricketContestStatus()),
   GetPage(name: "/withdraw", page: () => WithdrawPage()),
-    GetPage(name: "/hestoryWallet", page: () => AllHestory()),
+  GetPage(name: "/hestoryWallet", page: () => AllHestory()),
 
-        GetPage(name: "/AllShowContest", page: () => AllShowContest())
-
+  GetPage(name: "/AllShowContest", page: () => AllShowContest()),
+  GetPage(name: "/blog", page: () => MyFullBlog()),
+    GetPage(name: "/live", page: () => LiveScores())
 ];

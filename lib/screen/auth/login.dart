@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/routes/Api.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/utilis/alinement.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/routes/Api.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/utilis/alinement.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 import '../../utilis/AllColor.dart';
 
@@ -38,7 +38,7 @@ class _LoginpageState extends State<Loginpage> {
                 Column(
                   crossAxisAlignment: AlignmentStartCross,
                   children: [
-                    Text("Sign up on MPLPRO App",
+                    Text("Sign up on WINNER11 App",
                         style: CustomStyles.headerTextStyle),
                     size10h,
                     Text("Get 50 Coins on  Sign up",

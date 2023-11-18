@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
+import 'package:WINNER11/Db/insertData.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomPopupDialog extends StatelessWidget {
@@ -146,7 +146,7 @@ class CustomPopupDialog2 extends StatelessWidget {
           ),
           size20h,
           Text(
-            "MPL",
+            "WINNER11",
             style: TextStyle(
               color: myColorRed,
               fontSize: 22,

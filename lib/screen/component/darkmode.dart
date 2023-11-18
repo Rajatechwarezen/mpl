@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 
 import 'package:get/get.dart';
 

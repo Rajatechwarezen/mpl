@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 
 class SimpleCounter extends StatefulWidget {
   final int totalSeconds;

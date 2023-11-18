@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mplpro/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
 
 class CustomStyles {
   static TextStyle verysmallTextStyle = TextStyle(
@@ -37,7 +37,7 @@ class CustomStyles {
   );
   // textExternel text
   static TextStyle textExternel =  TextStyle(
-      color: myColorDarkRed,
+      color: myColorRed,
       fontFamily: "Roboto1",
       fontWeight: FontWeight.bold);
 

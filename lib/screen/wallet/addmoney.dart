@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/DataGet/walletChange.dart';
-import 'package:mplpro/screen/component/darkmode.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/DataGet/walletChange.dart';
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upi_india/upi_india.dart';
 
@@ -194,7 +194,7 @@ class CustomRupess extends StatelessWidget {
   final Function setStateCallback;
   var paisa;
   CustomRupess(this.setStateCallback, this.paisa);
-
+   final ThemeController themeController = Get.put(ThemeController());
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -202,7 +202,8 @@ class CustomRupess extends StatelessWidget {
         onTap: () {
           setStateCallback();
         },
-        child: Container(
+        child: Obx(
+  () => Container(
           width: 50,
           height: 50,
           margin: const EdgeInsets.all(10),
@@ -220,7 +221,7 @@ class CustomRupess extends StatelessWidget {
           ),
           child: Center(child: Text(this.paisa)),
         ),
-      ),
+       ) ),
     );
   }
 }

@@ -1,15 +1,16 @@
+import 'package:WINNER11/screen/component/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
-import 'package:mplpro/screen/component/darkmode.dart';
-import 'package:mplpro/screen/component/tabar.dart';
-import 'package:mplpro/screen/tap/topIndigetor.dart';
+import 'package:WINNER11/Db/insertData.dart';
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/screen/component/tabar.dart';
+import 'package:WINNER11/screen/tap/topIndigetor.dart';
 
-import 'package:mplpro/screen/tap2/mycontest.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/alinement.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/tap2/mycontest.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/alinement.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 import '../header/appbar.dart';
 
@@ -27,7 +28,7 @@ ApiService apiservice = ApiService();
   late TabController _tabController;
   @override
   void initState() {
-      initDatabase();
+ 
     super.initState();
 
     _tabController = TabController(
@@ -90,7 +91,7 @@ ApiService apiservice = ApiService();
          
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While the future is still running, display a loading indicator
-                return CircularProgressIndicator();
+                return summer2;
               } else if (snapshot.hasError) {
                 // If an error occurred, display an error message
                 return Text('Error: ${snapshot.error}');
@@ -115,7 +116,7 @@ ApiService apiservice = ApiService();
          
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While the future is still running, display a loading indicator
-                return CircularProgressIndicator();
+                return summer2;
               } else if (snapshot.hasError) {
                 // If an error occurred, display an error message
                 return Text('Error: ${snapshot.error}');
@@ -140,7 +141,7 @@ ApiService apiservice = ApiService();
          
               if (snapshot.connectionState == ConnectionState.waiting) {
                 // While the future is still running, display a loading indicator
-                return CircularProgressIndicator();
+                return summer2;
               } else if (snapshot.hasError) {
                 // If an error occurred, display an error message
                 return Text('Error: ${snapshot.error}');

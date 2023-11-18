@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/ImageMatchDetail.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
-import 'package:mplpro/screen/component/darkmode.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/tap/topIndigetor.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/component/ImageMatchDetail.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/tap/topIndigetor.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/boxSpace.dart';

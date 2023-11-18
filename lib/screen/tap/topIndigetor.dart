@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 import '../../utilis/AllColor.dart';
 
@@ -21,37 +21,42 @@ class _IndigatorState extends State<Indigator> {
     List<String> mytext = ["SELECT MATCH", "JOIN CONTEST", "FINISHED"];
     for (int i = 0; i < _numPages; i++) {
       list.add(i == widget.currentPage
-          ? _indicator(true, mytext[i])
-          : _indicator(false, mytext[i]));
+          ? _indicator(true, mytext[i],i)
+          : _indicator(false, mytext[i],i));
     }
     return list;
   }
 
-  Widget _indicator(bool isActive, text) {
+  Widget _indicator(bool isActive, text , num) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
             padding: GlobleglobleMargin.Margin10H,
+          
             margin: EdgeInsets.only(right: 10),
             child: Text(
               text,
               style: TextStyle(fontSize: 11, color: isActive ? myColorRed: myColorGray,   ),
             )),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 150),
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
-              height: 10,
-              width: isActive ? 20.0 : 10.0,
+              height:isActive ? 16.0 : 10.0,
+              width: isActive ? 30.0 : 10.0,
               decoration: BoxDecoration(
-                color: isActive ? myColorRed : myColor,
+              
+                gradient: gredientColor,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
+              child:  num== 2 ?  Icon(Icons.arrow_circle_down ,size:  isActive ? 15.0 : 10.0, color: myColorWhite ) : 
+              Icon(Icons.arrow_forward ,size:  isActive ? 11.0 : 10.0, color: myColorWhite ),
             ),
-          ],
+           ],
         ),
       ],
     );

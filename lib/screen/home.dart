@@ -1,26 +1,29 @@
 import 'dart:async';
 
+import 'package:WINNER11/screen/appBottombar.dart/navbar.dart';
+import 'package:WINNER11/screen/tap3/dome.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/Db/insertData.dart';
-import 'package:mplpro/screen/component/custom_toaster.dart';
+import 'package:WINNER11/Db/insertData.dart';
+import 'package:WINNER11/screen/component/custom_toaster.dart';
 
-import 'package:mplpro/screen/component/tabar.dart';
+import 'package:WINNER11/screen/component/tabar.dart';
 
-import 'package:mplpro/screen/header/appbar.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
 
-import 'package:mplpro/screen/header/sidebar.dart';
-import 'package:mplpro/screen/live/live.dart';
-import 'package:mplpro/screen/tap/topIndigetor.dart';
-import 'package:mplpro/screen/tap1/upcomming.dart';
+import 'package:WINNER11/screen/header/sidebar.dart';
+import 'package:WINNER11/screen/live/live.dart';
+import 'package:WINNER11/screen/tap/topIndigetor.dart';
+import 'package:WINNER11/screen/tap1/upcomming.dart';
 
-import 'package:mplpro/screen/tap3/blogList.dart';
+import 'package:WINNER11/screen/tap3/blogList.dart';
+import 'package:WINNER11/service/authapi.dart';
 
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/alinement.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/alinement.dart';
 
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -37,15 +40,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   bool isAlertSet = false;
 
   final String? id = Get.arguments as String?;
-
+  
   late TabController _tabController;
   @override
   void initState() {
-    initDatabase();
+  
     super.initState();
 getConnectivity();
     _tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
   }
@@ -66,75 +69,25 @@ getConnectivity();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'MPL',
+        title: 'WINNER11',
       ),
       drawer: myDrawer(context, id),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            //Indigator
-            Indigator(currentPage: 0),
-            Container(
-              margin: GlobleglobleMargin.globleMargin,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: AlignmentStartCross,
-                children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.all(0),
-                    child: Container(
-                      height: 40,
-                      margin: EdgeInsets.zero,
-                      child: TabBar(
-                        tabAlignment: TabAlignment.center,
-                        labelPadding: const EdgeInsets.all(5),
-                        controller: _tabController,
-                        indicatorColor: myColorRed,
-                        isScrollable: true,
-                        tabs: [
-                          MyTab("Cricket"),
-                          MyTab("Blog"),
-                          MyTab("Live")
-                        ],
-                      ),
-                    ),
-                  ),
-                  const Divider(),
-                  SizedBox(
-                    height: 850,
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        RefreshIndicator(
-                          onRefresh: () async {},
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            margin: const EdgeInsets.only(top: 20),
-                            child: const UpComming(),
-                          ),
-                        ),
-                        //blog
-                        RefreshIndicator(
-                          onRefresh: () async {},
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            margin: const EdgeInsets.only(top: 20),
-                            child: BlogList(blogs: blogList),
-                          ),
-                        ),
-                      
-                      LiveScores()
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          //Indigator
+          Indigator(currentPage: 0),
+          Container(
+            height: 600,
+            margin: GlobleglobleMargin.globleMargin,
+            child:   RefreshIndicator(
+                       onRefresh: () async {
+                         },
+                       child: const UpComming(),
+                     ),
+          ),
+        ],
       ),
-      // bottomNavigationBar: const NavBarMusicWidget(),
+      bottomNavigationBar: const NavBarMusicWidget(),
     );
   }
 }

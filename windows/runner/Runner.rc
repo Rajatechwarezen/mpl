@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "mplpro" "\0"
+            VALUE "FileDescription", "WINNER11" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mplpro" "\0"
+            VALUE "InternalName", "WINNER11" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "mplpro.exe" "\0"
-            VALUE "ProductName", "mplpro" "\0"
+            VALUE "OriginalFilename", "WINNER11.exe" "\0"
+            VALUE "ProductName", "WINNER11" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

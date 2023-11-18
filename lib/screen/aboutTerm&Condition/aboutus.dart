@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mplpro/screen/component/headNavi.dart';
-import 'package:mplpro/screen/component/shimmer.dart';
-import 'package:mplpro/screen/component/treamsHeading.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/component/headNavi.dart';
+import 'package:WINNER11/screen/component/shimmer.dart';
+import 'package:WINNER11/screen/component/treamsHeading.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 class Myaboutus extends StatefulWidget {
   const Myaboutus({super.key});

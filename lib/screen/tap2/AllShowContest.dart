@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mplpro/screen/component/coundown.dart';
-import 'package:mplpro/screen/component/imageComponet.dart';
-import 'package:mplpro/screen/header/appbar.dart';
-import 'package:mplpro/screen/header/headerTop.dart';
-import 'package:mplpro/service/authapi.dart';
-import 'package:mplpro/utilis/AllColor.dart';
-import 'package:mplpro/utilis/alinement.dart';
-import 'package:mplpro/utilis/borderbox.dart';
-import 'package:mplpro/utilis/boxSpace.dart';
-import 'package:mplpro/utilis/fontstyle.dart';
-import 'package:mplpro/utilis/globlemargin.dart';
+import 'package:WINNER11/screen/component/coundown.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/header/appbar.dart';
+import 'package:WINNER11/screen/header/headerTop.dart';
+import 'package:WINNER11/service/authapi.dart';
+import 'package:WINNER11/utilis/AllColor.dart';
+import 'package:WINNER11/utilis/alinement.dart';
+import 'package:WINNER11/utilis/borderbox.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
+import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:WINNER11/utilis/globlemargin.dart';
 
 class AllShowContest extends StatefulWidget {
   var data;
@@ -104,7 +104,7 @@ class _AllShowContestState extends State<AllShowContest> {
   }
 
   ImageSelect({Image1, Image2, data}) {
-    print(data);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -146,13 +146,13 @@ class _AllShowContestState extends State<AllShowContest> {
                       height: 40.0,
                       width: 40.0,
                       decoration: BoxDecoration(
-                          color: data["selected_team"] == data["team_a_short"]
+                          color: data["selected_team"] == data["team_a"]
                               ? myColorGray.withOpacity(0.5)
                               : Colors.transparent,
 
 
                           borderRadius: BorderRadius.circular(100)),
-                      child: data["selected_team"] == data["team_a_short"]
+                      child: data["selected_team"] == data["team_a"]
                           ? Icon(
                               Icons.check,
                               size: 30,
@@ -241,11 +241,11 @@ class _AllShowContestState extends State<AllShowContest> {
                   height: 40.0,
                   width: 40.0,
                   decoration: BoxDecoration(
-                      color: data["selected_team"] == data["team_a_short"]
+                      color: data["selected_team"] == data["team_b"]
                           ? myColorGray.withOpacity(0.5)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(100)),
-                  child: data["selected_team"].toString() ==  data["team_a_short"]
+                  child: data["selected_team"].toString() ==  data["team_b"]
                       ? Icon(
                           Icons.check,
                           size: 30,
