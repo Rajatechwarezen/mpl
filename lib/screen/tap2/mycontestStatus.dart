@@ -1,7 +1,7 @@
+import 'package:WINNER11/screen/component/imageComponet.dart';
 import 'package:WINNER11/screen/component/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:WINNER11/Db/insertData.dart';
 import 'package:WINNER11/screen/component/darkmode.dart';
 import 'package:WINNER11/screen/component/tabar.dart';
 import 'package:WINNER11/screen/tap/topIndigetor.dart';
@@ -43,14 +43,16 @@ ApiService apiservice = ApiService();
     
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'MyContest',
+        title: 'My Contest',
       ),
    
       body: SingleChildScrollView(
         child: Column(
           children: [
             //Indigator
-            Indigator(currentPage: 0),
+            Container(
+                decoration:summerImage,
+              child: Indigator(currentPage: 0)),
             Container(
               margin: GlobleglobleMargin.globleMargin,
               child: Column(

@@ -1,3 +1,6 @@
+import 'package:WINNER11/DataGet/liveData.dart';
+import 'package:WINNER11/screen/component/darkmode.dart';
+import 'package:WINNER11/screen/component/imageComponet.dart';
 import 'package:WINNER11/screen/header/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:WINNER11/screen/component/shimmer.dart';
@@ -7,6 +10,7 @@ import 'package:WINNER11/utilis/AllColor.dart';
 import 'package:WINNER11/utilis/borderbox.dart';
 import 'package:WINNER11/utilis/boxSpace.dart';
 import 'package:WINNER11/utilis/fontstyle.dart';
+import 'package:get/get.dart';
 
 import '../../utilis/globlemargin.dart';
 
@@ -20,202 +24,208 @@ class LiveScores extends StatefulWidget {
 class _LiveScoresState extends State<LiveScores> {
   @override
   Widget build(BuildContext context) {
-  final ApiService apiService = ApiService();
- return Scaffold(
+    final ApiService apiService = ApiService();
+    final RealTimeDataController realTimeDataController =
+        Get.put(RealTimeDataController());
+
+    final ThemeController themeController = Get.put(ThemeController());
+
+    return Scaffold(
       appBar: CustomAppBar(title: "ALL Live"),
       body: Container(
         margin: GlobleglobleMargin.globleMargin,
-        child: Column(
-          children: [
-              
-                size20h,
-                     
-                     Simpletitlebtn(HeadName: "All Live Matche "),
-             
-                     size20h,
-            FutureBuilder<void>(
-      future: apiService.userAllLive(uri: "http://apicricketchampion.in/webservices/liveMatchList/20122cd5366e30f0847774c9d7698d30"),
-      builder: (context, snapshot) {
-           final matches = apiService.liveMatches;
-       
-         if (matches.isEmpty) {
-              return  Text("");
-            } else {
-              return    Column(
-                  children: matches.map((match) {
-                    return InkWell(
-                      onTap: () {
-                      
-                      },
-                      child: Container(
-                        width:  350,
-                        height: 220,
-                       
-                        decoration: BoxDecoration(
-                              
-                          border: border,
-                          borderRadius: BorderRadius.circular(10),
-                          
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, top: 5),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '•${match.matchStatus}',
-                                    style: CustomStyles.smallTextStyle,
-                                  ),
-                                  size20w,
-                                  Expanded(
-                                      flex: 1,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                         Container(
-                                        width: 150,
-                                        child: Text(
-                                          match.series,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(fontSize: 13),
-                                        ),
-                                      ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                            child: Text(
-                                                "${match.matchTime} : ${match.matchDate}"),
-                                          )
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: myColorRed,
-                              thickness: 1,
-                            ),
-                            // Row of team 1
-                            Row(
-                              children: [
-                                size20w,
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      teamheadingscore2(
-                                          teamAImg: match.teamAImg,
-                                          teamBImg: match.teamBImg,
-                                          teamName: match.teamAShort,
-                                          teamName2: match.teamBShort,
-                                          teamScore: match.teamAScore,
-                                          teamScore2: match.teamBScore,
-                                          teamOver: match.teamAOver,
-                                          teamType: match.matchType,
-                                          matchTime: match.matchTime,
-                                          teamOver2: match.teamBOver),
-                                    ],
-                                  ),
-                                ),
-                                size20w,
-                              ],
-                            ),
-                            Divider(
-                              color: myColorRed,
-                              thickness: 1,
-                            ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              size20h,
+              Obx(() {
+                final matches = realTimeDataController.liveMatches;
 
-                            Row(
-                              children: [
-                                Row(
+                if (matches.isEmpty) {
+                  return Text("");
+                } else {
+                  return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                    children: matches.map((match) {
+                      return InkWell(
+                        onTap: () {},
+                        child: Container(
+                          width: 350,
+                          height: 220,
+                          margin: EdgeInsets.only(bottom: 30),
+                          decoration:  BoxDecoration(
+                                  color: themeController.isLightMode.value
+                                      ? myColorWhite
+                                      : myColor,
+                                  boxShadow: [
+                                    themeController.isLightMode.value
+                                        ? boxshadow2
+                                        : boxdark
+                                  ],
+                                  border: border,
+                                  borderRadius: boRadiusAll),
+                          child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, top: 5),
+                                child: Row(
                                   children: [
+                                    Text(
+                                      '•${match.matchStatus}',
+                                      style: CustomStyles.smallTextStyle,
+                                    ),
                                     size20w,
-                                    //Aw -
-                                    Text(match.favTeam.toString()),
-                                    Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, top: 10),
-                                        child: Container(
-                                          height: 35,
-                                          width: 30,
-                                          decoration: BoxDecoration(
-                                            color:myColorRed,
-                                      
-                                            border: border,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              match.min.toString(),
-                                              style: CustomStyles
-                                                  .smallTextStyle,
+                                    Expanded(
+                                        flex: 1,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              width: 150,
+                                              child: Text(
+                                                match.series,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(fontSize: 13),
+                                              ),
                                             ),
-                                          ),
-                                        )),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Text(
+                                                  "${match.matchTime} : ${match.matchDate}"),
+                                            )
+                                          ],
+                                        ))
                                   ],
                                 ),
-                                Padding(
+                              ),
+                              Divider(
+                                color: myColorRed,
+                                thickness: 1,
+                              ),
+                              // Row of team 1
+                              Row(
+                                children: [
+                                  size20w,
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        teamheadingscore2(
+                                            teamAImg: match.teamAImg,
+                                            teamBImg: match.teamBImg,
+                                            teamName: match.teamAShort,
+                                            teamName2: match.teamBShort,
+                                            teamScore: match.teamAScore,
+                                            teamScore2: match.teamBScore,
+                                            teamOver: match.teamAOver,
+                                            teamOver2: match.teamBOver),
+                                      ],
+                                    ),
+                                  ),
+                                  size20w,
+                                ],
+                              ),
+                              Divider(
+                                color: myColorRed,
+                                thickness: 1,
+                              ),
+
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      size20w,
+                                      //Aw -
+                                      Text(match.favTeam.toString()),
+                                      Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, top: 10),
+                                          child: Container(
+                                            height: 35,
+                                            width: 30,
+                                            decoration: BoxDecoration(
+                                              borderRadius: boRadius5,
+                                              border: border,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                match.min.toString(),
+                                                style:
+                                                    CustomStyles.smallTextStyle,
+                                              ),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 10),
+                                      child: Container(
+                                        height: 35,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                          borderRadius: boRadius5,
+                                          border: border,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            match.max.toString(),
+                                            style: CustomStyles.smallTextStyle,
+                                          ),
+                                        ),
+                                      )),
+                                ],
+                              ),
+
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
                                     padding: const EdgeInsets.only(
                                         left: 10, top: 10),
-                                    child: Container(
-                                      height: 35,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        color:
-                                          myColorRed,
-                                      
-                                        border: border,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          match.max.toString(),
-                                          style: CustomStyles
-                                              .smallTextStyle,
-                                        ),
-                                      ),
-                                    )),
-                              ],
-                            ),
-
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, top: 10),
-                                  child: Text(
-                                    truncateText(match.venue, 60),
-                                    style:
-                                        CustomStyles.smallTextStyle,
+                                    child: Text(
+                                      truncateText(match.venue, 60),
+                                      style: CustomStyles.smallTextStyle,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Column(
+                                    children: [
+                                      Text(match.matchType,
+                                          style: CustomStyles.textExternel),
+                                      Text(match.matchTime,
+                                          style: CustomStyles.textExternel),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
-                );
-             
-            }
-      },
-    )
- 
-          ],
+                      );
+                    }).toList(),
+                  );
+                }
+              })
+            ],
+          ),
         ),
       ),
     );
- 
-   }
+  }
 }
+
 teamheadingscore2({
   teamAImg,
   teamBImg,
@@ -236,28 +246,19 @@ teamheadingscore2({
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                  height: 30,
-                  width: 30,
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                   
-                    image: DecorationImage(
-                      image: NetworkImage(teamAImg.toString()),
-                      fit: BoxFit.cover,
-                    ),
-                  )),
+              ImageComponentNet(
+                  myWidth: 40.0, myheight: 40.0, myImage: teamAImg.toString()),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(teamName.toString(),
-                      style: CustomStyles.textExternel),
-                  Text(teamOver.toString(), style: CustomStyles.textExternel),
+                  Text(teamName.toString(), style: CustomStyles.smallTextStyle),
+                  Text("${teamScore}/${teamOver.toString()}",
+                      style: CustomStyles.smallTextStyle),
                 ],
               ),
             ],
@@ -265,55 +266,28 @@ teamheadingscore2({
           const SizedBox(
             height: 8,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  height: 30,
-                  width: 30,
-                  margin: const EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                   
-                    image: DecorationImage(
-                      image: NetworkImage(teamBImg.toString()),
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(teamName2.toString(),
-                      style: CustomStyles.textExternel),
-                  Text(teamOver2.toString(),
-                      style: CustomStyles.textExternel),
-                ],
-              ),
-            ],
-          ),
         ],
       ),
-     
       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
-            children: [
-              Text(teamScore, style: CustomStyles.textExternel),
-              Text(teamType, style: CustomStyles.textExternel),
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(teamScore2, style: CustomStyles.textExternel),
-              Text(matchTime, style: CustomStyles.textExternel),
+              ImageComponentNet(
+                  myWidth: 40.0, myheight: 40.0, myImage: teamBImg.toString()),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(teamName2.toString(),
+                      style: CustomStyles.smallTextStyle),
+                  Text("${teamScore2}/${teamOver2.toString()}",
+                      style: CustomStyles.smallTextStyle),
+                ],
+              ),
             ],
           ),
         ],
@@ -321,11 +295,6 @@ teamheadingscore2({
     ],
   );
 }
-
-
-
-
-
 
 String truncateText(String text, int maxLength) {
   if (text.length <= maxLength) {

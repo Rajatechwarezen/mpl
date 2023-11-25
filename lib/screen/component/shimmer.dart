@@ -113,3 +113,17 @@ var summer2 = Shimmer.fromColors(
    ],
   ),
 );
+
+
+var imageShimmer  = Center(
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Image.asset(
+              'assets/summer.png',
+              width: 400,
+              height: 799,
+            ),
+          ),
+        );
+      

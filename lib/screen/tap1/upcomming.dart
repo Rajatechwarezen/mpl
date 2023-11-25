@@ -1,7 +1,6 @@
 import 'package:WINNER11/screen/component/darkmode.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:WINNER11/Db/insertData.dart';
 import 'package:WINNER11/screen/component/custom_toaster.dart';
 import 'package:WINNER11/screen/component/imageComponet.dart';
 import 'package:WINNER11/screen/component/shimmer.dart';
@@ -15,7 +14,6 @@ import 'package:WINNER11/utilis/fontstyle.dart';
 
 import '../../banner/banner.dart';
 import '../component/coundown.dart';
-import '../live/scrollerlive.dart';
 
 class UpComming extends StatefulWidget {
   const UpComming({super.key});
@@ -37,54 +35,78 @@ class _UpCommingState extends State<UpComming> {
   final String? id = Get.arguments as String?;
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: apiService.userAllDoc(uri: "/user_upcoming_matches"),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // While the future is still running, display a loading indicator
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          // If an error occurred, display an error message
-          return Text('Error: ${snapshot.error}');
-        } else {
-          if (snapshot.data != null) {
-            // Data has been successfully fetched
-            final data =
-                (snapshot.data as Map<String, dynamic>)["data"]["result"];
-
-            return Column(
-              children: [
-                  data.toString() != "[]"
-                      ? Mycontest(
-                          data: data,
-                          type: "upcomming",
-                        )
-                      : const Text(""),
-                  size20h,
-                   FutureBuilder(
-                    future: apiService.userAllDoc(uri: "/user_banner"),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError || snapshot.data == null) {
-                        return Text(
-                            'Error: ${snapshot.error ?? "No data available"}');
-                      } else {
-                        var banners = (snapshot.data
-                            as Map<String, dynamic>)['data']["result"];
-
-                        return BannerAdd(
-                            banners: banners, currentSlide: _currentSlide);
-                      }
-                    },
-                  ),
-              
-                  size10h,
-                 
-                  Simpletitlebtn(HeadName: "Upcomming Matches"),
-                  size10h,
-
+    return Column(
+      children: [
+        FutureBuilder(
+          future: apiService.userAllDoc(uri: "/user_upcoming_matches"),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While the future is still running, display a loading indicator
+              return imageShimmer;
+            } else if (snapshot.hasError) {
+              // If an error occurred, display an error message
+              return Text('Error: ${snapshot.error}');
+            } else {
+              if (snapshot.data != null) {
+                // Data has been successfully fetched
+                final data =
+                    (snapshot.data as Map<String, dynamic>)["data"]["result"]  ;
+if(data != null){
+        return Column(
+                  children: [
                 
+
+               
+         
+                        titlebtn(
+              HeadName: "MY Contest match",
+              context1: context,
+              Headno: "See All",
+              routes: "/AllShowContest",
+            ),
+            size20h,
+                    data.toString() != "[]" 
+                        ? Mycontest(
+                            data: data,
+                            type: "upcomming",
+                          )
+                        : const Text(""),
+                    size10h,
+                       ],
+                );
+           
+
+}else {
+              return Text('No match data available');
+            }
+                  } else {
+                return const Text("");
+              }
+            }
+          },
+        ),
+                         FutureBuilder(
+                      future: apiService.userAllDoc(uri: "/user_banner"),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError || snapshot.data == null) {
+                          return Text(
+                              'Error: ${snapshot.error ?? "No data available"}');
+                        } else {
+                          var banners = (snapshot.data
+                              as Map<String, dynamic>)['data']["result"];
+
+                          return BannerAdd(
+                              banners: banners, currentSlide: _currentSlide);
+                        }
+                      },
+                    ),
+                     
+             
+      Simpletitlebtn(HeadName: "Upcomming Matches"),
+            
+            
                 FutureBuilder(
                   future: apiService
                       .userMatchList(data: {"id": id}, uri: '/show_matches'),
@@ -99,36 +121,43 @@ class _UpCommingState extends State<UpComming> {
                       if (data != null) {
                         final result = data["result"];
                         if (result != null) {
-                          return Expanded(
-                            child: ListView.builder(
-                              itemCount: result.length,
-                              itemBuilder: (context, index) {
-                                final match = result[index];
-                                if (getMatchStatus(
-                                        1,
-                                        match["match_date"].toString(),
-                                        match["match_time"]) ==
-                                    "Match Over") {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      CustomToaster.showWarning(
-                                          context, "Match Match Over that ");
-                                    },
-                                    child: Obx(() =>  Container(
-                                          height: 180,
-                                          margin: EdgeInsets.only(top: 20 ),
-                                          padding: const EdgeInsets.only(
-                                              top: 10,
-                                              bottom: 5,
-                                              right: 10,
-                                              left: 10),
-                                          decoration: BoxDecoration(
-                                              border: border,
-                                              color: themeController.isLightMode.value ? myColorWhite :myColor,
-                                              boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
-                                              borderRadius: boRadiusAll),
-                                          child: Container(
-                                            child: Column(children: [
+                          return Column(
+                            children: List.generate(result.length, (index) {
+                              final match = result[index];
+                              if (getMatchStatus(
+                                      1,
+                                      match["match_date"].toString(),
+                                      match["match_time"]) ==
+                                  "Match Over") {
+                                return GestureDetector(
+                                  onTap: () {
+                                    CustomToaster.showWarning(
+                                        context, "The Match Is  Over ");
+                                  },
+                                  child: Obx(() => Container(
+                                        height: 180,
+                                        margin: EdgeInsets.only(top: 20),
+                                        padding: const EdgeInsets.only(
+                                            top: 10,
+                                            bottom: 5,
+                                            right: 10,
+                                            left: 10),
+                                        decoration: BoxDecoration(
+                                          border: border,
+                                          color: themeController
+                                                  .isLightMode.value
+                                              ? myColorWhite
+                                              : myColor,
+                                          boxShadow: [
+                                            themeController.isLightMode.value
+                                                ? boxdark
+                                                : boxshadow2
+                                          ],
+                                          borderRadius: boRadiusAll,
+                                        ),
+                                        child: Container(
+                                          child: Column(
+                                            children: [
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -136,15 +165,17 @@ class _UpCommingState extends State<UpComming> {
                                                 children: [
                                                   Container(
                                                       height: 30,
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10,
-                                                          vertical: 5),
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 10,
+                                                              vertical: 5),
                                                       decoration:
-                                                          const BoxDecoration(
+                                                           BoxDecoration(
                                                         image: DecorationImage(
                                                             image: AssetImage(
-                                                                "assets/banner.png"),
+                                                              themeController
+                                                  .isLightMode.value ?  "assets/banner.png" : "assets/banner-dark.png"),
                                                             fit: BoxFit.fill,
                                                             alignment: Alignment
                                                                 .centerRight),
@@ -164,15 +195,18 @@ class _UpCommingState extends State<UpComming> {
                                                   ),
                                                   const Column(
                                                     children: [
-                                                      Icon(Icons.access_alarm),
+                                                      Icon(
+                                                          Icons.access_alarm),
                                                     ],
                                                   )
                                                 ],
                                               ),
                                               size10h,
                                               ImageColoum(
-                                                  Image1: match['match_flag_a'],
-                                                  Image2: match['match_flag_b'],
+                                                  Image1:
+                                                      match['match_flag_a'],
+                                                  Image2:
+                                                      match['match_flag_b'],
                                                   short_nameA:
                                                       match["sort_name_a"],
                                                   short_nameB:
@@ -198,9 +232,10 @@ class _UpCommingState extends State<UpComming> {
                                                       ),
                                                     ),
                                                     child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          left: 15.0),
+                                                      padding:
+                                                          EdgeInsets.only(
+                                                              top: 10.0,
+                                                              left: 15.0),
                                                       child: Text(
                                                         "MEGA ₹1 Core",
                                                         style: CustomStyles
@@ -210,34 +245,43 @@ class _UpCommingState extends State<UpComming> {
                                                   )
                                                 ],
                                               )
-                                            ]),
-                                          )),
-                                    ),
-                                  );
-                                } else {
-                                  return InkWell(
-                                    onTap: () {
-                                      Get.toNamed('/contList', arguments: {
-                                        "poolId": match["match_id"],
-                                        "id": id
-                                      });
-                                    },
-                                    child: Obx ( () =>  Container(
-                                          height: 180,
-                                          margin: EdgeInsets.only(top: 20),
-                                          padding: const EdgeInsets.only(
-                                              top: 10,
-                                              bottom: 5,
-                                              right: 10,
-                                              left: 10),
-                                          decoration: BoxDecoration(
-                                              border: border,
-                                                color: themeController.isLightMode.value ? myColorWhite : myColor,
-                                                boxShadow: [themeController.isLightMode.value ? boxdark : boxshadow2],
-                                              
-                                              borderRadius: boRadiusAll),
-                                          child: Container(
-                                            child: Column(children: [
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                );
+                              } else {
+                                return InkWell(
+                                  onTap: () {
+                                    Get.toNamed('/contList', arguments: {
+                                      "poolId": match["match_id"],
+                                      "id": id
+                                    });
+                                  },
+                                  child: Obx(() => Container(
+                                        height: 180,
+                                        margin: EdgeInsets.only(top: 20),
+                                        padding: const EdgeInsets.only(
+                                            top: 10,
+                                            bottom: 5,
+                                            right: 10,
+                                            left: 10),
+                                        decoration: BoxDecoration(
+                                          border: border,
+                                          color: themeController
+                                                  .isLightMode.value
+                                              ? myColorWhite
+                                              : myColor,
+                                          boxShadow: [
+                                            themeController.isLightMode.value
+                                                ? boxdark
+                                                : boxshadow2
+                                          ],
+                                          borderRadius: boRadiusAll,
+                                        ),
+                                        child: Container(
+                                          child: Column(
+                                            children: [
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -245,15 +289,17 @@ class _UpCommingState extends State<UpComming> {
                                                 children: [
                                                   Container(
                                                       height: 30,
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: 10,
-                                                          vertical: 5),
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              horizontal: 10,
+                                                              vertical: 5),
                                                       decoration:
-                                                          const BoxDecoration(
+                                                           BoxDecoration(
                                                         image: DecorationImage(
                                                             image: AssetImage(
-                                                                "assets/banner.png"),
+                                                              themeController
+                                                  .isLightMode.value ?  "assets/banner.png" : "assets/banner-dark.png"),
                                                             fit: BoxFit.fill,
                                                             alignment: Alignment
                                                                 .centerRight),
@@ -273,15 +319,18 @@ class _UpCommingState extends State<UpComming> {
                                                   ),
                                                   const Column(
                                                     children: [
-                                                      Icon(Icons.access_alarm),
+                                                      Icon(
+                                                          Icons.access_alarm),
                                                     ],
                                                   )
                                                 ],
                                               ),
                                               size10h,
                                               ImageColoum(
-                                                  Image1: match['match_flag_a'],
-                                                  Image2: match['match_flag_b'],
+                                                  Image1:
+                                                      match['match_flag_a'],
+                                                  Image2:
+                                                      match['match_flag_b'],
                                                   short_nameA:
                                                       match["sort_name_a"],
                                                   short_nameB:
@@ -307,9 +356,10 @@ class _UpCommingState extends State<UpComming> {
                                                       ),
                                                     ),
                                                     child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 10.0,
-                                                          left: 15.0),
+                                                      padding:
+                                                          EdgeInsets.only(
+                                                              top: 10.0,
+                                                              left: 15.0),
                                                       child: Text(
                                                         "MEGA ₹1 Core",
                                                         style: CustomStyles
@@ -319,14 +369,15 @@ class _UpCommingState extends State<UpComming> {
                                                   )
                                                 ],
                                               )
-                                            ]),
-                                          )),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
+                                            ],
+                                          ),
+                                        ),
+                                      )),
+                                );
+                              }
+                            }),
                           );
+
                         } else {
                           return showShummer;
                         }
@@ -341,14 +392,8 @@ class _UpCommingState extends State<UpComming> {
                     }
                   },
                 ),
-              ],
-            );
-            // ignore: unnecessary_null_comparison
-          } else {
-            return const Text("");
-          }
-        }
-      },
+           
+      ],
     );
   }
 }
@@ -389,11 +434,6 @@ ImageColoum(
           )
         ],
       ),
-      //  SimpleCounter(
-      //           totalSeconds: 1, // Total seconds until the match starts
-      //           matchDate: matchData, // Match date (customize it according to your data)
-      //           matchTime:matchtime, // Match time (customize it according to your data)
-      //         ),
       Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -415,7 +455,6 @@ ImageColoum(
           ],
         ),
       ),
-
       Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [

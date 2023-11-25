@@ -141,8 +141,7 @@ class _CaroselLiveState extends State<CaroselLive> {
                                     teamScore: match.teamAScore,
                                     teamScore2: match.teamBScore,
                                     teamOver: match.teamAOver,
-                                    teamType: match.matchType,
-                                    matchTime: match.matchTime,
+                                   
                                     teamOver2: match.teamBOver),
                               ],
                             ),

@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:WINNER11/screen/component/deviceInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:WINNER11/Db/insertData.dart';
 
 import 'package:WINNER11/utilis/borderbox.dart';
 import 'package:WINNER11/utilis/globlemargin.dart';
@@ -32,7 +32,9 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController.forward();
     super.initState();
 
-   
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await contractionDeviceInfo(context);
+    });
     _loadWidget();
   }
 
@@ -42,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     allreadyExit = store.getString('userId');
     Intro = store.getString('into');
     var duration = Duration(milliseconds: _splashDelay);
+   
     return Timer(duration, navigationPage);
   }
 

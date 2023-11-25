@@ -96,7 +96,7 @@ class _MyaboutusState extends State<Myaboutus> {
                 SectionTitle(title: '5. Service Terms'),
                 SubSectionTitle(title: '5.1 Requesting Rides'),
                 SectionContent(
-                  content: 'Detail how users can request rides through your app, including the process and any requirements.',
+                  content: 'Details how users can request rides through your app, including the process and any requirements.',
                 ),
                 SubSectionTitle(title: '5.2 Driver Responsibilities'),
                 SectionContent(

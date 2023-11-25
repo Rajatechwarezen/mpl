@@ -1,4 +1,6 @@
 // ignore: file_names
+import 'package:WINNER11/screen/component/deviceInfo.dart';
+import 'package:WINNER11/screen/component/pop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final int _numPages = 3;
+
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -40,6 +43,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await contractionDeviceInfo(context);
+      await getDeviceInfo(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,24 +61,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () async {
-                      final store = await SharedPreferences.getInstance();
-                      store.setString('into', _currentPage.toString());
-
-                      Get.toNamed('/home');
-                    },
-                    child:  Text(
-                      'Skip',
-                      style: TextStyle(
-                        color: myColor,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: 600.0,
                   child: PageView(
@@ -79,7 +71,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         _currentPage = page;
                       });
                     },
-                    children:  [
+                    children: [
                       Padding(
                         padding: EdgeInsets.all(40.0),
                         child: Column(
@@ -164,8 +156,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ],
                   ),
                 ),
-             
-             
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),
@@ -184,7 +174,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
-                              children:  <Widget>[
+                              children: <Widget>[
                                 Text(
                                   'Next',
                                   style: TextStyle(
@@ -211,26 +201,29 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
       bottomSheet: _currentPage == _numPages - 1
           ? Container(
-            padding: EdgeInsets.only(top: 20),
               height: 70.0,
               width: double.infinity,
               color: myColorRed,
-              child: GestureDetector(
-                onTap: () async {
-                  final store = await SharedPreferences.getInstance();
-                  store.setString('into', _currentPage.toString());
-                     Get.toNamed('/login');
-    // Get.toNamed('/home');
+              child: TextButton(
+                onPressed: () async {
+                  try {
+                    final preferences = await SharedPreferences.getInstance();
+                    preferences.setString('into', _currentPage.toString());
+                    Get.offAllNamed('/login');
+                  } catch (e) {
+                    // Handle SharedPreferences error
+                    print('Error accessing SharedPreferences: $e');
+                  }
                 },
-                child:  Center(
+                child: Center(
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30.0),
+                    padding: EdgeInsets.only(bottom: 20.0),
                     child: Text(
                       'Get started',
-                      style: CustomStyleswhite.headerTextStyle),
+                      style: CustomStyleswhite.headerTextStyle,
                     ),
                   ),
-                
+                ),
               ),
             )
           : const Text(''),

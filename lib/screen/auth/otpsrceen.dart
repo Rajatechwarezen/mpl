@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:WINNER11/screen/component/deviceInfo.dart';
+import 'package:WINNER11/screen/component/pop.dart';
 import 'package:get/get.dart';
 import 'package:WINNER11/DataGet/formGet.dart';
 import 'package:WINNER11/routes/Api.dart';
@@ -19,11 +21,17 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+ var  _isLoading =  true;
   var code = "";
   final themeSMS = Get.put(SmsController());
   //api
   final ApiService apiService = ApiService();
-  
+    void initState() {
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await contractionDeviceInfo(context);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final String? data = Get.arguments as String?;
@@ -109,7 +117,9 @@ class _OtpPageState extends State<OtpPage> {
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
                       //json decode
-
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+       if (_isLoading) showProgressDialog(context, 'Process Bar...');
+    });
                       final store = await SharedPreferences.getInstance();
                       try {
                         var otp = generateOTP();
@@ -134,21 +144,24 @@ class _OtpPageState extends State<OtpPage> {
                                 Jwt.parseJwt(loginResponse["data"]["token"]);
 
                             CustomToaster.showSuccess(context,
-                                " Successfull  User Login${decodedToken["userId"].toString()}");
+                                " Successfully  User Login ");
                             // we save data in local storage  userId
                             store.setString(
                                 'userId', decodedToken["userId"].toString());
                            // we save data in local storage  token
                                   store.setString(
                                 'token', loginResponse["data"]["token"]);
+                                _isLoading = false;
                             Get.offAllNamed("/home",arguments: store.getString("userId"));
                             
                           } else {
                             CustomToaster.showWarning(
                                 context, " Warning  User Not  Login");
+                                _isLoading = false;
                             Get.offAllNamed("/login");
                           }
                         } else {
+                          _isLoading = false;
                           Get.toNamed("/otp");
                           CustomToaster.showWarning(
                               context, " unauthorized User");

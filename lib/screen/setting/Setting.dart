@@ -47,49 +47,7 @@ class _MySettingState extends State<MySetting> {
                    
              
                     size20w,
-                              FutureBuilder(
-              future: apiService.userAllDoc(data: {}, uri: "/kyc_user_status_check"),
-              builder: (context, snapshort) {
-                if (snapshort.connectionState == ConnectionState.done) {
-                  if (snapshort.hasError) {
-                    return Text('Error: ${snapshort.error}');
-                  }
-
-                  final data = (snapshort.data as Map<String, dynamic>)['data'];
-
-                  if (data != null) {
-                    final result = data["result"][0]["pan_approval"];
-         
-                    if (result != null) {
-                      return Column(
-                        children: [
-                                Row(
-                      children: [
-                      result =="approved"?  Text("Verified",style: CustomStyles.textExternelgreen,) :  Text("Not Verified",style: CustomStyles.textExternel,),
-                        Icon(
-                          Icons.check,
-                          color: myColorgreen,
-                        )
-                      ],
-                    ),
-                     
-                        ],
-                      );
-                    } else {
-                      return Text('No match data available');
-                    }
-                  } else {
-                    return Text('No data available');
-                  }
-                } else if (snapshort.connectionState ==
-                    ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Display a loading indicator
-                } else {
-                  return Text('Data retrieval is not in progress');
-                }
-              }),
-              
-                  ],
+                     ],
                 ),
                 onTap: () {
                   Get.toNamed('/kyc');
@@ -126,6 +84,21 @@ class _MySettingState extends State<MySetting> {
                 onTap: () {
                   Get.toNamed('/withdraw');
                 },
+              ),
+
+               ListTile(
+                trailing: Icon(Icons.arrow_forward),
+                leading: Icon(
+                    Icons.info), // Change the icon to a different policy icon
+                title: Row(
+                  children: [
+                    Text('History Wallet', style: CustomStyles.header2TextStyle),
+                 
+                  ],
+                ),
+                onTap: () {
+                
+    Get.toNamed("/historyWallet");  },
               ),
         ],
           )

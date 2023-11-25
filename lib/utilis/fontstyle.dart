@@ -24,7 +24,7 @@ class CustomStyles {
     fontFamily: 'Roboto1', // Use the same font family name here
   );
   static TextStyle header2TextStyle = TextStyle(
-  
+     
     fontSize: 18,
     fontWeight: FontWeight.w400,
     fontFamily: 'Roboto1', // Use the same font family name here
@@ -32,7 +32,7 @@ class CustomStyles {
    static TextStyle header3TextStyle = TextStyle(
   
     fontSize: 15,
-    fontWeight: FontWeight.w800,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Roboto1', // Use the same font family name here
   );
   // textExternel text

@@ -1,3 +1,5 @@
+import 'package:WINNER11/screen/component/shimmer.dart';
+import 'package:WINNER11/service/authapi.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:WINNER11/screen/component/darkmode.dart';
@@ -33,7 +35,7 @@ class _MyNotiState extends State<MyNoti> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'Nitification',
+          title: 'Notification',
         ),
         body: SafeArea(
           child: Container(
@@ -45,11 +47,7 @@ class _MyNotiState extends State<MyNoti> {
                     // here we are refresh indigetor
                   },
                   child: Column(children: [
-                    titlebtn(
-                        HeadName: "New",
-                        context1: context,
-                        Headno: 20,
-                        routes: "/"),
+             
                     size20h,
                     Container(
                       child: NotificationItem(
@@ -79,33 +77,65 @@ class NotificationItem extends StatelessWidget {
     required this.timestamp,
   });
 
+  final ApiService apiService = ApiService();
   final ThemeController themeController = Get.put(ThemeController());
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-        key: Key(title), // Unique key for the item
-        background: Container(
-          color: myColorRed, // Color for the delete action background
-          child: const Icon(
-            Icons.delete,
-            color: Colors.white,
-            size: 32,
-          ),
-          alignment: Alignment.centerRight,
-          padding: EdgeInsets.only(right: 20.0),
-        ),
-        onDismissed: (direction) {
-          // Handle delete action here
-          // You can call a function to delete the item from your data source
-        },
-        child: Obx (() =>  Container(
+  return FutureBuilder(
+  future: apiService.userallGet(
+   
+    uri: "/notification_get_user",
+  ),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.done) {
+      if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      }
+
+      final data = (snapshot.data as Map<String, dynamic>)['data'];
+
+
+
+      if (data != null) {
+       var result =  data["result"];
+     
+        if (result != null) {
+      
+    
+          return 
+            ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: result.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> item =result[index];
+        return      
+          Dismissible(
+            key: Key("unique_key"), // Replace with your unique key logic
+            background: Container(
+              color: myColorRed,
+              child: const Icon(
+                Icons.delete,
+                color: Colors.white,
+                size: 32,
+              ),
+              alignment: Alignment.centerRight,
+            
+              padding: EdgeInsets.only(right: 20.0),
+            ),
+            onDismissed: (direction) {
+              // Handle delete action here
+              // You can call a function to delete the item from your data source
+            },
+            child: Obx(() =>   Container(
             width: double.infinity,
-        
+                margin: EdgeInsets.only(top: 20),
             decoration: BoxDecoration(
               border: border,
               color: themeController.isLightMode.value ? myColorWhite : myColor,
               boxShadow: [themeController.isLightMode.value  ? boxshadow2 : boxdark ],
               borderRadius: boRadius5,
+        
             ),
             padding: EdgeInsets.all(10),
             child: Column(
@@ -130,14 +160,18 @@ class NotificationItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "My first nitification  we check to how it is look like  We check to see how it looks like. My first notification. We check to see how it looks like. We check to see how it looks like. My first notification. We check to see how it looks like.",
+                      item["tittle"],
                         style: CustomStyles.header3TextStyle,
                         overflow: TextOverflow.ellipsis,
                         softWrap: true,
                         maxLines: 3,
                       ),
-                      ExpandableText(
-                        "My first notification. We check to see how it looks like. My first notification. We check to see how it looks like. My first notification. We check to see how it looks like.",
+                Text(
+                       style: CustomStyles.smallTextStyle,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        maxLines: 3,
+                        "${item["description"]}",
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -158,6 +192,22 @@ class NotificationItem extends StatelessWidget {
             ),
           ),
         ));
+        
+        });
+        
+        } else {
+          return Text('No match data available');
+        }
+      } else {
+        return Text('No data available');
+      }
+    } else if (snapshot.connectionState == ConnectionState.waiting) {
+      return summer2; // Replace with your shimmer widget
+    } else {
+      return Text('Data retrieval is not in progress');
+    }
+  },
+);
   }
 }
 
@@ -198,3 +248,6 @@ class _ExpandableTextState extends State<ExpandableText> {
     );
   }
 }
+
+
+

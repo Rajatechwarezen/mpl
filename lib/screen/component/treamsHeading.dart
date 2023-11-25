@@ -10,12 +10,9 @@ class SubSectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0),
-      child: DefaultTextStyle(
-          style:CustomStyles.header2TextStyle,
-        child: Text(
-          title,
-        
-        ),
+      child: Text(
+        title,
+      style: CustomStyles.smallTextStyle,
       ),
     );
   }
@@ -33,7 +30,7 @@ class SectionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(16.0),
-      child: DefaultTextStyle(style: CustomStyles.smallTextStyle, child: Text(content,)),
+      child: Text(content,style: CustomStyles.smallTextStyle,),
     );
   }
 }

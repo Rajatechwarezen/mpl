@@ -42,7 +42,7 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'MPL',
+          title: '',
           actions: [],
         ),
         body: SafeArea(
@@ -50,7 +50,9 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
             margin: GlobleglobleMargin.globleMargin,
             child: Column(
               children: [
-                Indigator(currentPage: 1),
+                Container(   
+                  decoration: summerImage, 
+                  child: Indigator(currentPage: 1)),
                 RefreshIndicator(
                   onRefresh: () async {
                     // here we are refresh indigetor
@@ -78,10 +80,27 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
                                       style: CustomStyles.smallTextStyle,
                                     ),
                                     size20h,
-                                    Text(
-                                      "₹26 Lakhs",
-                                      style: CustomStyles.header2TextStyle,
-                                    ),
+                                          Column(
+  children: [
+    Image.asset(
+     "assets/cruwn.gif",
+      width: 30, // Adjust the width as needed
+      height: 30, // Adjust the height as needed
+      fit: BoxFit.contain, // Adjust the fit property as needed
+    ),
+   
+    Text(
+      "₹${argumentsdata["data"]["winning_prize"]}",
+      style:  TextStyle(
+  
+    fontSize: 30,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Roboto1', // Use the same font family name here
+  ),
+    ),
+  ],
+),
+
                                   ],
                                 ),
                               ],
@@ -130,7 +149,7 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
 
                             ElevatedButton(
                               onPressed: () async {
-                                ApiService apiservice = ApiService();
+                                 ApiService apiservice = ApiService();
                                 var data = await apiservice.userAllDoc(
                                     uri: "/fetch_balance");
  final store =
@@ -159,13 +178,13 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
 
                                   Get.toNamed("/addMoney");
                                 }
-                              },
+},
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     myColorgreen, // Set the button background color to green
                               ),
                               child: Text(
-                                'Join Now       ₹4',
+                                'Join Now       ₹${argumentsdata["data"]["entry_fee"].toString()}',
                                 style: CustomStyleswhite.headerTextStyle,
                               ),
                             )
@@ -173,36 +192,7 @@ class _MyContState extends State<MyCont> with SingleTickerProviderStateMixin {
                         ),
                         // bottom
                         size10h,
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: boRadiusAll,
-                            color: const Color.fromARGB(255, 222, 219, 219),
-                          ),
-                          padding: const EdgeInsets.only(
-                              top: 10, bottom: 5, right: 10, left: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.first_page,
-                                    size: 10,
-                                  ),
-                                  Text(
-                                    "₹1.2 Lakes  ",
-                                    style: TextStyle(
-                                        fontFamily: "Roboto1",
-                                        color: myColorGray,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ])),
+                       ])),
                 ),
               ],
             ),

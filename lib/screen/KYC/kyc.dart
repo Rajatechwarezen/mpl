@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:WINNER11/screen/component/pop.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,8 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utilis/boxSpace.dart';
 
-
-
 class KYC extends StatefulWidget {
   const KYC({super.key});
 
@@ -26,17 +25,17 @@ class KYC extends StatefulWidget {
 }
 
 class _KYCState extends State<KYC> {
-   final apiService = ApiService();
-    final formKey = GlobalKey<FormState>();
+  final apiService = ApiService();
+  final formKey = GlobalKey<FormState>();
   File? _AdharImg;
   File? _PanDocument;
-
+  var _isLoading = true;
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: "KYC"),
       body: Form(
-                  key: formKey,
+        key: formKey,
         child: Column(children: [
           Container(
             width: double.infinity,
@@ -47,7 +46,6 @@ class _KYCState extends State<KYC> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-             
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -62,29 +60,25 @@ class _KYCState extends State<KYC> {
               ],
             ),
           ),
-               Container(
-                     margin: GlobleglobleMargin.globleMargin,
-                 child: Column(
-                   children: [
-                    Simpletitlebtn(HeadName: "Edit Your KYC"),
-                     size20h,
-                           _buildPanImageField(),
-                           size20h,
-                           _buildAdharImageField(),
-                          size20h,
-                          _buildSubmitButton(),
-                        
-                   ],
-                 ),
-               )
-        
+          Container(
+            margin: GlobleglobleMargin.globleMargin,
+            child: Column(
+              children: [
+                Simpletitlebtn(HeadName: "Edit Your KYC"),
+                size20h,
+                _buildPanImageField(),
+                size20h,
+                _buildAdharImageField(),
+                size20h,
+                _buildSubmitButton(),
+              ],
+            ),
+          )
         ]),
       ),
     );
-
   }
 
-  
   Future<void> _pickPanImage() async {
     final pickedFile =
         // ignore: deprecated_member_use
@@ -103,192 +97,180 @@ class _KYCState extends State<KYC> {
     });
   }
 
-
-
-
   //pancard
   Widget _buildPanImageField() {
+    return FutureBuilder(
+      future: apiService.userAllDoc(uri: '/kyc_pan_user_get'),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
 
+          final data = (snapshot.data as Map<String, dynamic>)["data"]
+              ?["result"]?[0]?["pan_img"];
 
- return  FutureBuilder(
-    future: apiService.userAllDoc( uri:'/kyc_pan_user_get'),
-    builder:(context, snapshot){
-     print("${snapshot.data} ============================================================");
-          if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-        final data = (snapshot.data as Map<String, dynamic>)["data"]?["result"]?[0]?["pan_img"];
-
-
-if (data != null) {
- 
-      return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: borderRed,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: _pickPanImage,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      10), // Adjust the border radius as needed
-
-                  child: SizedBox(
-                    width: 100, // Adjust the width and height as needed
-
-                    height: 100,
-
-                    child: _PanDocument == null
-                        ? Container(
-                            width: 300,
-                            height: 15,
-                            decoration:  BoxDecoration(
-                              image: DecorationImage(
-                                image:  NetworkImage("http://192.168.1.6:8000/$data"),
-                                //  const AssetImage("assets/pancard.png"),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          )
-                        : Image.file(
-                            _PanDocument!,
-
-                            fit: BoxFit
-                                .cover, // Adjust the fit property as needed
-                          ),
-                  ),
-                ),
+          if (data != null) {
+            return Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: borderRed,
               ),
-              const Column(
-                children: [Text("Pan card Update")],
-              )
-            ],
-          ),
-        ],
-      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            10), // Adjust the border radius as needed
+
+                        child: SizedBox(
+                          width: 100, // Adjust the width and height as needed
+
+                          height: 100,
+
+                          child: _PanDocument == null
+                              ? Container(
+                                  width: 300,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          "https://mplproapi.techwarezen.co/images/$data"),
+                                      //  const AssetImage("assets/pancard.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                )
+                              : Image.file(
+                                  _PanDocument!,
+
+                                  fit: BoxFit
+                                      .cover, // Adjust the fit property as needed
+                                ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: _pickPanImage,
+                            ),
+                          ),
+                          Text("Pan card Update")
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Display a loading indicator
+        } else {
+          return Text('Data retrieval is not in progress');
+        }
+      },
     );
-
-} else {
-  return CircularProgressIndicator();
-}
-          
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Display a loading indicator
-            } else {
-              return Text('Data retrieval is not in progress');
-            }
-      
- 
-  },);
-  
-    }
-
-
-
-
-
+  }
 
   Widget _buildAdharImageField() {
+    return FutureBuilder(
+      future: apiService.userAllDoc(uri: '/kyc_addhar_user_get'),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
 
+          if (snapshot.data != null) {
+            final data = (snapshot.data as Map<String, dynamic>)["data"]
+                ?["result"]?[0]?["addhar_img"];
 
-    
- return  FutureBuilder(
-    future: apiService.userAllDoc( uri:'/kyc_addhar_user_get'),
-    builder:(context, snapshot){
-     
-          if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-        final data = (snapshot.data as Map<String, dynamic>)["data"]?["result"]?[0]?["addhar_img"];
-      
-
-if (data != null) {
- 
-      return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: borderRed,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: _pickAdhaImage,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      10), // Adjust the border radius as needed
-
-                  child: SizedBox(
-                    width: 100, // Adjust the width and height as needed
-
-                    height: 100,
-
-                    child:_AdharImg == null
-                        ? Container(
-                            width: 300,
-                            height: 15,
-                            decoration:  BoxDecoration(
-                              image: DecorationImage(
-                                image:  NetworkImage("http://192.168.1.6:8000/$data"),
-                                //  const AssetImage("assets/pancard.png"),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          )
-                        : Image.file(
-                            _AdharImg !,
-
-                            fit: BoxFit
-                                .cover, // Adjust the fit property as needed
-                          ),
-                  ),
-                ),
+            return Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                border: borderRed,
               ),
-              const Column(
-                children: [Text("Aadhar card Update")],
-              )
-            ],
-          ),
-        ],
-      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            10), // Adjust the border radius as needed
+
+                        child: SizedBox(
+                          width: 100, // Adjust the width and height as needed
+
+                          height: 100,
+
+                          child: _AdharImg == null
+                              ? Container(
+                                  width: 300,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          "https://mplproapi.techwarezen.co/images/$data"),
+                                      //  const AssetImage("assets/pancard.png"),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                )
+                              : Image.file(
+                                  _AdharImg!,
+                                  fit: BoxFit
+                                      .cover, // Adjust the fit property as needed
+                                ),
+                        ),
+                      ),
+                        Row(
+                        children: [
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: IconButton(
+                              icon: Icon(Icons.edit),
+                              onPressed: _pickAdhaImage,
+                            ),
+                          ),
+                         Text("Aadhar card Update")
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Display a loading indicator
+        } else {
+          return Text('Data retrieval is not in progress');
+        }
+      },
     );
-
-} else {
-  return CircularProgressIndicator();
-}
-          
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Display a loading indicator
-            } else {
-              return Text('Data retrieval is not in progress');
-            }
-      
- 
-  },);
-  
-   }
-
-
+  }
 
   Widget _buildSubmitButton() {
     return InkWell(
       onTap: _submitForm,
       child: Container(
           alignment: Alignment.center,
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
               color: myColorgreen,
               borderRadius: BorderRadius.all(Radius.circular(20))),
           padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.5),
@@ -297,41 +279,50 @@ if (data != null) {
     );
   }
 
+  _submitForm() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      if (_isLoading) showProgressDialog(context, 'Process Bar...');
+    });
 
-  Future<void> _submitForm() async {
-  if (formKey.currentState!.validate() ) {
-      final store = await SharedPreferences.getInstance();
-   var  id = store.getString('userId');
+    if (formKey.currentState!.validate()) {
+      if (_PanDocument == null || _AdharImg == null) {
+        // Show an error message if either Aadhar or Pan Card image is missing
+        _isLoading = false;
+        CustomToaster.showWarning(
+            context, "Please provide both Aadhar and Pan Card images");
+      } else {
+        final store = await SharedPreferences.getInstance();
+        var id = store.getString('userId');
 
-    final data = await apiService.userImageUpload(
-      panImage: _PanDocument,
-      id: id,
-      url: "/kyc_pan_user",
-    );
+        final dataAdhar = await apiService.userImageUpload(
+          panImage: _AdharImg,
+          id: id,
+          url: "/kyc_addhar_user",
+        );
+ 
 
-    final dataAdhar = await apiService.userImageUpload(
-      panImage: _AdharImg,
-      id: id,
-      url: "/kyc_addhar_user",
-    );
-
-    if (data == "not-ok" && dataAdhar == "not-ok") {
+    
+        if (dataAdhar == "not-ok") {
+          _isLoading = false;
+          CustomToaster.showWarning(context, "Invalid Aadhar or Pancard");
+        } else {
+        
+        final data = await apiService.userImageUpload(
+          panImage: _PanDocument,
+          id: id,
+          url: "/kyc_pan_user",
+        );
+ if (dataAdhar == "not-ok") {
+          _isLoading = false;
+          CustomToaster.showWarning(context, "Invalid Aadhar or Pancard");
+        } else {
+            Get.toNamed("/home", arguments: id);
+          _isLoading = false;
+          CustomToaster.showSuccess(context, "KYC uploaded successfully!");
       
-        CustomToaster.showWarning(context, "Warning message Invalid Aadhar  or Pancard");
-        
-    } else {
-      Get.toNamed("/home",arguments: id);
-
-        CustomToaster.showSuccess(context, "Successfull  Upload Aadhar  or Pancard");
-        
-    }
-  } else {
-    // Handle validation errors or missing images
+        }
+          }
+      }
+    } 
   }
 }
-
- 
-  }
-
-
-

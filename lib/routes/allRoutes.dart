@@ -53,13 +53,13 @@ var allRutes = [
   GetPage(name: "/editProfile", page: () => EditProfile()),
   GetPage(name: "/myAboutus", page: () => Myaboutus()),
   //terms and condition
-  GetPage(name: "/fql", page: () => Steps()),
+  GetPage(name: "/faq", page: () => Steps()),
   GetPage(name: "/tarmAnd", page: () => TarmAnd()),
   GetPage(name: "/mySeeMore", page: () => SeeMore()),
   GetPage(name: "/notification", page: () => MyNotificationEnable()),
   GetPage(name: "/myContestStatus", page: () => MyCricketContestStatus()),
   GetPage(name: "/withdraw", page: () => WithdrawPage()),
-  GetPage(name: "/hestoryWallet", page: () => AllHestory()),
+  GetPage(name: "/historyWallet", page: () => AllHestory()),
 
   GetPage(name: "/AllShowContest", page: () => AllShowContest()),
   GetPage(name: "/blog", page: () => MyFullBlog()),

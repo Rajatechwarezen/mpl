@@ -101,8 +101,8 @@ class BannerWidget extends StatelessWidget {
                       ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.asset(
-            "assets/mpl.jpg",
+          child: Image.network(
+            "https://mplproapi.techwarezen.co/images/${imageUrl}",
             fit: BoxFit.cover,
           ),
         ),

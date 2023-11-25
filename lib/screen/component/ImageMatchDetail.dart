@@ -18,19 +18,17 @@ teamA_B({Image1, Image2 , data}) {
                 myImage: Image1,
               ),
               size10w,
-            DefaultTextStyle(
- style: CustomStyles.smallTextStyle,
-                child: Text(
-                  data["sort_name_a"],
-                 
-                ),
-              )
+            Text(
+              data["sort_name_a"],
+             style: CustomStyles.smallTextStyle,
+ 
+            )
             ],
           ),
           size10h,
-         DefaultTextStyle(
-           style: CustomStyles.smallTextStyle,
-child: Text(data["team_a"]))
+                  Text(
+                    
+                    data["team_a"])
         ],
       ),
     
@@ -39,14 +37,12 @@ child: Text(data["team_a"]))
         children: [
           Row(
             children: [
-            DefaultTextStyle(
-
-                 style: CustomStyles.smallTextStyle,
-                child: Text(
-                   data["sort_name_b"],
-                 
-                ),
-              ),
+            Text(
+               
+               data["sort_name_b"],
+               style: CustomStyles.smallTextStyle,
+             
+            ),
               size10w,
               ImageComponentNet(
                 myWidth: 30.0,
@@ -56,9 +52,12 @@ child: Text(data["team_a"]))
             ],
           ),
           size10h,
-       DefaultTextStyle(
- style: CustomStyles.smallTextStyle,
-child: Text(data["team_a"]))
+              Text(
+                 
+                data["team_a"],
+                  style: CustomStyles.smallTextStyle,
+             
+                )
         ],
       ),
     ],

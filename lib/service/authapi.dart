@@ -2,13 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:WINNER11/screen/live/live.dart';
 import 'package:WINNER11/screen/live/live_model.dart';
 import 'package:WINNER11/screen/tap3/blog_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../screen/tap3/blogList.dart';
-
 class ApiService {
   final String baseUrl =
       'https://mplproapi.techwarezen.co/'; // Use "http" or "https" as needed
@@ -32,9 +28,11 @@ class ApiService {
       };
 
       final response = await dio.post('$uri', data: data);
-
+   print("==============================$response");
       if (response.statusCode == 200) {
+     
         return {"data": response.data, "status": "200"};
+
       } else {
         return {"data": "nodata", "status": response.statusCode};
       }
@@ -43,29 +41,40 @@ class ApiService {
     }
   }
 
-  userMatchList({Map<String, dynamic>? data, uri}) async {
 
-    final store = await SharedPreferences.getInstance();
-    final token = store.getString("token");
+userMatchList({Map<String, dynamic>? data, uri}) async {
+  final store = await SharedPreferences.getInstance();
+  final token = store.getString("token");
 
-    try {
-      dio.options.baseUrl = baseUrl;
-      dio.options.headers = {
-        'Content-Type': 'application/json',
-        'Authorization': token,
-      };
+  try {
+    dio.options.baseUrl = baseUrl;
+    dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    };
 
-      final response = await dio.post('$uri', data: data);
+    final response = await dio.post('$uri', data: data);
 
-      if (response.statusCode == 200) {
-        return {"data": response.data, "status": "200"};
-      } else {
-        return {"data": "nodata", "status": response.statusCode};
-      }
-    } catch (e) {
+    if (response.statusCode == 200) {
+      return {"data": response.data, "status": "200"};
+    } else {
+      return {"data": "nodata", "status": response.statusCode};
+    }
+
+  } on DioException  catch (e) {
+    if (e.response != null && e.response!.statusCode == 401) {
+      // Handle 401 Unauthorized error here
+    
+      return {"data": "unauthorized", "status": 401};
+    } else {
+      // Handle other DioErrors or rethrow if needed
       throw Exception('Failed to make the API request: $e');
     }
+  } catch (e) {
+    // Catch general exceptions
+    throw Exception('Failed to make the API request: $e');
   }
+}
 
   userallType({Map<String, dynamic>? data, uri}) async {
     final store = await SharedPreferences.getInstance();
@@ -79,6 +88,30 @@ class ApiService {
       };
 
       final response = await dio.post('$uri', data: data);
+
+      if (response.statusCode == 200) {
+    
+        return {"data": response.data, "status": "200"};
+      } else {
+        return {"data": "nodata", "status": response.statusCode};
+      }
+    } catch (e) {
+      throw Exception('Failed to make the API request: $e');
+    }
+  }
+
+  userallGet({Map<String, dynamic>? data, uri}) async {
+    final store = await SharedPreferences.getInstance();
+    final token = store.getString("token");
+  
+    try {
+      dio.options.baseUrl = baseUrl;
+      dio.options.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      };
+
+      final response = await dio.get('$uri');
 
       if (response.statusCode == 200) {
     
@@ -153,6 +186,7 @@ userImageUpload({
     );
 
     if (response.statusCode == 200) {
+      print(response.data);
       return "ok";
     } else {
       return "not-ok";

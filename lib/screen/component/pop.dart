@@ -1,3 +1,4 @@
+import 'package:WINNER11/screen/component/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:WINNER11/Db/insertData.dart';
@@ -8,6 +9,7 @@ import 'package:WINNER11/utilis/AllColor.dart';
 import 'package:WINNER11/utilis/boxSpace.dart';
 import 'package:WINNER11/utilis/fontstyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/main.dart';
 
 class CustomPopupDialog extends StatelessWidget {
   ApiService apiservice = ApiService();
@@ -67,37 +69,24 @@ class CustomPopupDialog extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Cash Bonus",
+                          "Winning prize",
                           style: CustomStyles.smallTextStyle,
                         ),
                         Text(
-                          "Rs. ₹${data.toString()} - ₹${Adata["data"]["entry_fee"].toString()}  = ₹${(int.parse(data.toString()) - int.parse(Adata["data"]["entry_fee"].toString()))} ",
+                          "Rs.  ₹${Adata["data"]["winning_prize"].toString()} ",
                           style: CustomStyles.textExternelgreen,
                         )
                       ],
                     ),
                     Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "To Pay",
-                          style: CustomStyles.smallTextStyle,
-                        ),
-                        Text(
-                          "Rs.  ₹${(int.parse(data.toString()) - int.parse(Adata["data"]["entry_fee"].toString()))} ",
-                          style: CustomStyles.textExternelgreen,
-                        )
-                      ],
-                    ),
-                  ],
+                   ],
                 );
               } else {
                 return const Scaffold(
                     body: Center(child: CircularProgressIndicator()));
               }
             } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Display a loading indicator
+              return showShummer2; // Display a loading indicator
             } else {
               return Text('Data retrieval is not in progress');
             }
@@ -105,12 +94,9 @@ class CustomPopupDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () async {
-            final store = await SharedPreferences.getInstance();
-            var id = store.getString('userId');
-            insertData( context: context, name: textValue,data: Adata); // Insert the data into the database
-            // ignore: use_build_context_synchronously
-            CustomToaster.showSuccess(context, "Your Join Contest successfull");
-          Get.offNamed("/home",arguments:id);
+        
+            insertData( context: context, name: textValue,data: Adata); 
+
 
           },
           child: Text(
@@ -219,6 +205,48 @@ Future<void> showInputDialog(
   );
 }
 
+showProgressDialog(BuildContext context, message) {
+  showDialog(
+    context: context,
+    barrierDismissible:
+        false, // Prevents dismissing the dialog when tapping outside
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Row(
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(width: 16.0),
+            Text("$message "),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+
+class DialogHelper {
+  static Future<void> showInputDialog(BuildContext context) async {
+    return showDialog(
+       barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Your Dialog Title'),
+          content: Text('Your Dialog Content'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
 
 Future<void> showInputDialogAllType({required BuildContext context, required String data}) async {
   await showDialog(

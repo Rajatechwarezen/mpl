@@ -25,14 +25,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-  () => Container(
+    return Container(
+    
+     
       child: Padding(
         padding: const EdgeInsets.only(top: 7.0),
         child: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           elevation: 0,
-
+  flexibleSpace: Container(
+     decoration: BoxDecoration(
+        image: DecorationImage(image: AssetImage("assets/top-banner.png"),
+           fit: BoxFit.cover,
+        )
+        
+      ),),
           title: Row(
             children: [
               size10w,
@@ -44,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 },
                 child: DefaultTextStyle(
                     style: TextStyle(
-                      color: myColorRed,
+                      color: myColorWhite,
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
                       fontFamily: 'Roboto1',
@@ -60,35 +67,47 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ],
           ),
-          foregroundColor: themeController.isLightMode.value ? myColor: myColorWhite,
+          foregroundColor: myColorWhite,
           actions: [
      
             GestureDetector(
               onTap: () {
-                showModalBottomSheet<void>(
-                    showDragHandle: true,
-                    useSafeArea: true,
-                    isScrollControlled: true,
-                    elevation: 8,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return MyWallet();
-                    });
+    
+showModalBottomSheet<void>(
+  showDragHandle: true,
+  useSafeArea: true,
+  isScrollControlled: true,
+  elevation: 8,
+  context: context,
+   shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(16.0),
+      topRight: Radius.circular(16.0),
+    ),
+  ),
+  builder: (BuildContext context) {
+    return FractionallySizedBox(
+      heightFactor: 0.5, // Adjust this value to control the height (0.0 to 1.0).
+      child: MyWallet(),
+    );
+  },
+);
+
               },
               child: ImageComponent(
                 myWidth: 50.0,
                 myheight: 50.0,
-                myImage:themeController.isLightMode.value? "assets/icon/wallet.png":"assets/icon/wallet2.png",
+                myImage:"assets/icon/wallet2.png",
               ),
             ),
             IconButton(
-              icon: themeController.isLightMode.value ? Icon(Icons.sunny_snowing):  Icon(Icons.sunny_snowing,color: myColorWhite,), // Icon to display
+              icon: Icon(Icons.sunny_snowing,color: myColorWhite,), // Icon to display
               onPressed: () {
                 themeController.toggleTheme();
               },
             ),
             IconButton(
-              icon: themeController.isLightMode.value ?Icon(Icons.notifications_none_outlined):Icon(  Icons.notifications_none, color: myColorWhite,), // Icon to display
+              icon:Icon(  Icons.notifications_none, color: myColorWhite,), // Icon to display
               onPressed: () {
                 Get.toNamed('/myNoti');
               },
@@ -97,5 +116,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
     )
- ); }
+; }
 }

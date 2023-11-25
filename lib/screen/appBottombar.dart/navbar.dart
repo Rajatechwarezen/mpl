@@ -22,6 +22,7 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
   void setState(VoidCallback callback) {
     super.setState(callback);
   }
+
   final ThemeController themeController = Get.put(ThemeController());
   @override
   void initState() {
@@ -36,40 +37,68 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-  () =>Container(
+      () => Container(
         width: double.infinity,
         height: 60,
-      decoration: BoxDecoration(
-        color:  themeController.isLightMode.value ?  myColorWhite : myColor,
-        boxShadow:  [  themeController.isLightMode.value ?  boxshadow2 : boxdark]),
+        decoration: BoxDecoration(
+            color: themeController.isLightMode.value ? myColorWhite : myColor,
+            boxShadow: [
+              themeController.isLightMode.value ? boxshadow2 : boxdark
+            ]),
         child: Stack(
           children: [
             Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
+          
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+           
               children: [
-                InkWell(
-                  onTap: (){
-                    Get.toNamed("/blog");
-                  },
-                  child:  TextButtonapp(text: "Bolg", icon:  themeController.isLightMode.value ?    'assets/icon/cricket.png':  'assets/icon/cricket-dark.png'),
-               ),
-               InkWell(
-                  onTap: (){
-                            Get.toNamed('/myContestStatus');
-                  },
-               child: TextButtonapp(text: "Matchs", icon:  themeController.isLightMode.value ?    'assets/icon/play.png': 'assets/icon/play-dark.png' ),
-               ),
 
-                  InkWell(
-                  onTap: (){
-                            Get.toNamed('/live');
-                  },
-               child: TextButtonapp(text: "Live", icon:  themeController.isLightMode.value ?   'assets/icon/live2.png'  :'assets/icon/live.png'  ),
-                  ) ,   
-               TextButtonapp(text: "Wallet", icon: themeController.isLightMode.value ?     'assets/icon/wallet.png' : 'assets/icon/wallet-dark.png')
-              ],
+                InkWell(
+  onTap: () {
+    Get.toNamed("/home");
+  },
+  child: TextButtonapp(
+    text: "Home",
+    icon: themeController.isLightMode.value
+        ? Icon(Icons.home_outlined)
+        : Icon(Icons.home, color: Colors.white),
+  ),
+),
+       InkWell(
+  onTap: () {
+    Get.toNamed('/myContestStatus');
+  },
+  child: TextButtonapp(
+    text: "My Contest",
+    icon: themeController.isLightMode.value
+        ? Icon(Icons.play_arrow_outlined)
+        : Icon(Icons.play_arrow, color: Colors.white), // Customize color if needed
+  ),
+),
+InkWell(
+  onTap: () {
+    Get.toNamed("/blog");
+  },
+  child: TextButtonapp(
+    text: "News",
+    icon: themeController.isLightMode.value
+        ? Icon(Icons.sports_cricket_outlined)
+        : Icon(Icons.sports_cricket, color: Colors.white),
+  ),
+),
+InkWell(
+  onTap: () {
+    Get.toNamed('/live');
+  },
+  child: TextButtonapp(
+    text: "Live",
+    icon: themeController.isLightMode.value
+        ? Icon(Icons.live_tv)
+        : Icon(Icons.live_tv, color: Colors.white),
+  ),
+),
+
+   ],
             ),
           ],
         ),
@@ -79,18 +108,18 @@ class _NavBarMusicWidgetState extends State<NavBarMusicWidget> {
 }
 
 // ignore: non_constant_identifier_names
-TextButtonapp({text, icon}) {
+TextButtonapp({text, required Icon icon, bool isActive = false}) {
   return Column(
-    crossAxisAlignment: AlignmentCenterCross,
-    mainAxisAlignment: AlignmentCenterMain,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      ImageComponent(myWidth: 30.0, myheight: 30.0, myImage: icon),
-
-      const SizedBox(
-          width: 8), // Adjust the spacing between icon and label as needed
+      icon,
+      const SizedBox(width: 8), // Adjust the spacing between icon and label as needed
       Text(
         text.toString(),
-        style: CustomStyles.textExternel,
+        style: isActive
+            ? CustomStyles.textExternel.copyWith(color: Colors.blue) // Adjust the active style
+            : CustomStyles.textExternel,
       ),
     ],
   );

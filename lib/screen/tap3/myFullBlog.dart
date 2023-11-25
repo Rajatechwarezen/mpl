@@ -23,73 +23,186 @@ class MyFullBlog extends StatefulWidget {
 class _MyFullBlogState extends State<MyFullBlog> {
   final ApiService apiService = ApiService();
 
-   final ThemeController themeController = Get.put(ThemeController());
+  final ThemeController themeController = Get.put(ThemeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "ALL Blog"),
+      appBar: CustomAppBar(title: "ALL News"),
       body: Container(
         margin: GlobleglobleMargin.globleMargin,
         child: Column(
           children: [
-              
-                size20h,
-                     
-                     Simpletitlebtn(HeadName: "All Matche  News"),
-             
-                     size20h,
-                   FutureBuilder(
-            future: apiService.userAllblog(),
-            builder: (context, snapshot){
-                     return Expanded(
-         
-              child: ListView.builder(
-                itemCount:apiService.liveBolg.length,
-                itemBuilder: (context, index) {
-                  final blog = apiService.liveBolg[index];
-      
-                  return Container(
-                         height: 80,
-                    margin: EdgeInsets.only(left: 5, right: 10, top: 20),
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                       color:  themeController.isLightMode.value ?  myColorWhite : myColor,
-          boxShadow:  [  themeController.isLightMode.value ?  boxshadow2 : boxdark],
-        
-                       border: border,
-                        borderRadius: boRadiusAll),
-                    child: ListTile(
-                      leading: Image.network(
-                        blog.image,
-            
-                        width: 100, // Set the width of the image
-            
-                        height: 150, // Set the height of the image
-            
-                        fit: BoxFit.cover, // Adjust the image fit as needed
-                      ),
-                      title: Text(blog.description),
-                      subtitle: Text("By ${blog.newsId} - ${blog.pubDate}",style: CustomStyles.smallTextStyle),
-                      onTap: () {
-                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NewsLayout(newsData:blog )),
+
+            size20h,
+            FutureBuilder(
+              future: apiService.userAllblog(),
+              builder: (context, snapshot) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: apiService.liveBolg.length,
+                    itemBuilder: (context, index) {
+                      final blog = apiService.liveBolg[index];
+                      bool isEvenIndex = index % 4 == 0;
+                          if (index == apiService.liveBolg.length - 1) {
+              return Column(
+                children: [
+                  // Your existing code for building list items
+                  // ...
+
+                  // Text indicating data is not available
+                  Text('Data is not available'),
+                  ElevatedButton(
+                    onPressed: () {
+                  Navigator.pop(context);
+                    },
+                    child: Text('Home'),
+                  ),
+                ],
+              );
+            } else{
+                 if (isEvenIndex) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsLayout(newsData: blog),
+                              ),
+                            );
+                          },
+                          child: Container(
+                              height: 280,
+                              margin:
+                                  EdgeInsets.only(left: 5, right: 5, top: 20),
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: themeController.isLightMode.value
+                                      ? myColorWhite
+                                      : myColor,
+                                  boxShadow: [
+                                    themeController.isLightMode.value
+                                        ? boxshadow2
+                                        : boxdark
+                                  ],
+                                  border: border,
+                                  borderRadius: boRadiusAll),
+                              child: Container(
+                                padding: EdgeInsets.all(4.0),
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        blog.image,
+                                        width: double.infinity,
+                                        height: 150,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            8.0), // Add some space between the image and text
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(blog.title,
+                                              style: TextStyle(
+                                                height: 1.5,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Text(
+                                              "By ${blog.newsId} - ${blog.pubDate}",
+                                              style:
+                                                  CustomStyles.smallTextStyle),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
                         );
-                      },
-                    ),
-                  );
-                },
-              ),
-            );
-          
-            },
-           ),
-         
+                      } else {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsLayout(newsData: blog),
+                              ),
+                            );
+                          },
+                          child: Container(
+                              height: 150,
+                              margin:
+                                  EdgeInsets.only(left: 5, right: 5, top: 20),
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  color: themeController.isLightMode.value
+                                      ? myColorWhite
+                                      : myColor,
+                                  boxShadow: [
+                                    themeController.isLightMode.value
+                                        ? boxshadow2
+                                        : boxdark
+                                  ],
+                                  border: border,
+                                  borderRadius: boRadiusAll),
+                              child: Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        blog.image,
+                                        width: 100,
+                                        height: 150,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            8.0), // Add some space between the image and text
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(blog.title,
+                                              style: TextStyle(
+                                                height: 1.5,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                          Text(
+                                              "By ${blog.newsId} - ${blog.pubDate}",
+                                              style:
+                                                  CustomStyles.smallTextStyle),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        );
+                      }
+            }
+                   
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
-
 }

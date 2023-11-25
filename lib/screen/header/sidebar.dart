@@ -42,10 +42,11 @@ Drawer myDrawer(context, id) {
                                 Container(
                                   margin: const EdgeInsets.all(
                                       20.0), // Add a 20-pixel margin
-                                  child: const CircleAvatar(
+                                  child:  CircleAvatar(
                                     radius: 30.0,
                                     backgroundImage:
-                                        AssetImage("assets/ball.png"),
+                                        NetworkImage( "https://mplproapi.techwarezen.co/images/${data["image"] == null ? "undefined_1700565942151-screen-0.jpg": data["image"] }",
+                                    ),
                                   ),
                                 ),
                               ],

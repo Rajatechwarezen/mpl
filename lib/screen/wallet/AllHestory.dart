@@ -28,7 +28,9 @@ class _AllHestoryState extends State<AllHestory> {
           margin: GlobleglobleMargin.Margin10H,
           child: Column(
             children: [
-              Simpletitlebtn(HeadName: "All Wallet Hestory"),
+              size20h,
+              size20h,
+              Simpletitlebtn(HeadName: "All Wallet History"),
               FutureBuilder(
                 future: apiService.userAllDoc(uri: "/transaction_history"),
                 builder: (BuildContext context, snapshot) {

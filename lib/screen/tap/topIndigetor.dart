@@ -38,7 +38,7 @@ class _IndigatorState extends State<Indigator> {
             margin: EdgeInsets.only(right: 10),
             child: Text(
               text,
-              style: TextStyle(fontSize: 11, color: isActive ? myColorRed: myColorGray,   ),
+              style: TextStyle(fontSize: 11, color: isActive ? myColorWhite: myColorGray,   ),
             )),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -49,12 +49,12 @@ class _IndigatorState extends State<Indigator> {
               height:isActive ? 16.0 : 10.0,
               width: isActive ? 30.0 : 10.0,
               decoration: BoxDecoration(
-              
-                gradient: gredientColor,
+              color: myColorWhite,
+             
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
-              child:  num== 2 ?  Icon(Icons.arrow_circle_down ,size:  isActive ? 15.0 : 10.0, color: myColorWhite ) : 
-              Icon(Icons.arrow_forward ,size:  isActive ? 11.0 : 10.0, color: myColorWhite ),
+              child:  num== 2 ?  Icon(Icons.arrow_circle_down ,size:  isActive ? 15.0 : 10.0, color: myColor ) : 
+              Icon(Icons.arrow_forward ,size:  isActive ? 11.0 : 10.0, color: myColor ),
             ),
            ],
         ),

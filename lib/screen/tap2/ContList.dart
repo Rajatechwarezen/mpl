@@ -1,3 +1,5 @@
+import 'package:WINNER11/screen/component/imageComponet.dart';
+import 'package:WINNER11/screen/component/profileContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:WINNER11/screen/component/custom_toaster.dart';
@@ -51,12 +53,15 @@ class _ContListState extends State<ContList>
           child: SafeArea(
               child: Column(
             children: [
-              Indigator(currentPage: 1),
+              Container(
+                  height: 50,
+                  decoration: summerImage,
+                  child: Indigator(currentPage: 1)),
               size20h,
               Container(
                 margin: GlobleglobleMargin.globleMargin,
                 child: titlebtn(
-                    HeadName: "Discounted Entry Matches",
+                    HeadName: " Entry Matches",
                     Headno: "20",
                     routes: '/',
                     context1: context),
@@ -104,8 +109,18 @@ class _ContListState extends State<ContList>
                                                   });
                                             },
                                             child: Container(
-                                                height: 146,
+                                                height: 177,
                                                 decoration: BoxDecoration(
+                                                    color: themeController
+                                                            .isLightMode.value
+                                                        ? myColorWhite
+                                                        : myColor,
+                                                    boxShadow: [
+                                                      themeController
+                                                              .isLightMode.value
+                                                          ? boxshadow2
+                                                          : boxdark
+                                                    ],
                                                     border: border,
                                                     borderRadius: boRadiusAll),
                                                 child: Container(
@@ -131,10 +146,30 @@ class _ContListState extends State<ContList>
                                                                       .smallTextStyle,
                                                                 ),
                                                                 size20h,
-                                                                Text(
-                                                                  "₹${match["winning_prize"]}",
-                                                                  style: CustomStyles
-                                                                      .header2TextStyle,
+                                                                Column(
+                                                                  children: [
+                                                                    Image.asset(
+                                                                      "assets/cruwn.gif",
+                                                                      width:
+                                                                          30, // Adjust the width as needed
+                                                                      height:
+                                                                          30, // Adjust the height as needed
+                                                                      fit: BoxFit
+                                                                          .contain, // Adjust the fit property as needed
+                                                                    ),
+                                                                    Text(
+                                                                      "₹${match["winning_prize"]}",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            30,
+                                                                        fontWeight:
+                                                                            FontWeight.w700,
+                                                                        fontFamily:
+                                                                            'Roboto1', // Use the same font family name here
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
                                                               ],
                                                             ),
@@ -161,7 +196,7 @@ class _ContListState extends State<ContList>
                                                                 ElevatedButton(
                                                                   onPressed:
                                                                       () async {
-                                                                            final store =
+                                                                    final store =
                                                                         await SharedPreferences
                                                                             .getInstance();
 
@@ -175,14 +210,19 @@ class _ContListState extends State<ContList>
                                                                         .userAllDoc(
                                                                             uri:
                                                                                 "/fetch_balance");
-          
-                                                                   if( data["data"]["error"] == "Your wallet is not created" ){
-   CustomToaster.showWarning(
-                                                                            context,
-                                                                            data["data"]["error"]);
-                                                                   }else{
-                                                                    
-                                                                    
+
+                                                                    if (data["data"]
+                                                                            [
+                                                                            "error"] ==
+                                                                        "Your wallet is not created") {
+                                                                      CustomToaster.showWarning(
+                                                                          context,
+                                                                          data["data"]
+                                                                              [
+                                                                              "error"]);
+                                                                      Get.toNamed(
+                                                                          '/addMoney');
+                                                                    } else {
                                                                       final dynamic
                                                                           balance =
                                                                           data['data']
@@ -197,9 +237,6 @@ class _ContListState extends State<ContList>
                                                                               "id": id,
                                                                               "data": match,
                                                                             });
-
-
-                                                                            
                                                                       } else {
                                                                         CustomToaster.showWarning(
                                                                             context,
@@ -207,15 +244,8 @@ class _ContListState extends State<ContList>
 
                                                                         Get.toNamed(
                                                                             "/addMoney");
-                                                                    
                                                                       }
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                    
-                                                                   }
-                                                                    
+                                                                    }
                                                                   },
                                                                   style: ElevatedButton
                                                                       .styleFrom(
@@ -289,105 +319,6 @@ class _ContListState extends State<ContList>
                                                       ]),
                                                     ),
                                                     // bottom
-                                                    size10h,
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            boRadiusAll,
-                                                        color: const Color
-                                                            .fromARGB(
-                                                            255, 222, 219, 219),
-                                                      ),
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10,
-                                                              bottom: 5,
-                                                              right: 10,
-                                                              left: 10),
-                                                      child: const Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons
-                                                                    .first_page,
-                                                                size: 10,
-                                                              ),
-                                                              Text(
-                                                                "₹1.2 Lakes  ",
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "Roboto1",
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            142,
-                                                                            139,
-                                                                            139),
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.trolley,
-                                                                size: 10,
-                                                              ),
-                                                              Text(
-                                                                "61%",
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "Roboto1",
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            142,
-                                                                            139,
-                                                                            139),
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Icon(
-                                                                Icons.macro_off,
-                                                                size: 10,
-                                                              ),
-                                                              Text(
-                                                                "Upto 20 ",
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "Roboto1",
-                                                                    color: Color
-                                                                        .fromARGB(
-                                                                            255,
-                                                                            142,
-                                                                            139,
-                                                                            139),
-                                                                    fontSize:
-                                                                        12,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
                                                   ]),
                                                 )),
                                           ),

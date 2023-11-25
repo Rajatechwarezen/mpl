@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:WINNER11/Db/insertData.dart';
 import 'package:WINNER11/screen/component/custom_toaster.dart';
 import 'package:WINNER11/screen/component/darkmode.dart';
 import 'package:WINNER11/screen/component/imageComponet.dart';
@@ -54,7 +53,10 @@ class _CreateContState extends State<CreateCont> {
         child: Column(
           children: [
             //Indigator
-            Indigator(currentPage: 2),
+            Container(
+               height: 50,
+                    decoration: summerImage,
+              child: Indigator(currentPage: 2)),
             Container(
               margin: GlobleglobleMargin.globleMargin,
               child: Column(

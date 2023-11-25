@@ -1,3 +1,5 @@
+import 'package:WINNER11/screen/component/trancetionId.dart';
+import 'package:WINNER11/utilis/boxSpace.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:WINNER11/DataGet/walletChange.dart';
@@ -50,14 +52,21 @@ class _AddmoneyState extends State<Addmoney> {
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+       shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(16.0),
+      topRight: Radius.circular(16.0),
+    ),
+  ),
       builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
+     var transactionId =    generateUniqueId();
+        return FractionallySizedBox(
+      heightFactor: 0.8,
           child: MyUpi(
               transactionAmount: valueController.maoney.value.toDouble(),
               transactionNote: "Not actual. Just an example.",
               receiverUpiId: "7011448878@paytm",
-              transactionRefId: 'TestingUpiIndiaPlugin',
+              transactionRefId:transactionId,
               receiverName: 'Raja halder'),
         );
       },
@@ -174,7 +183,7 @@ class _AddmoneyState extends State<Addmoney> {
                     decoration:
                         BoxDecoration(color: myColor, borderRadius: boRadius5),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15.0, horizontal: 20.5),
+                        vertical: 10.0, horizontal: 20.5),
                     child: Text(
                       'Pay',
                       style: CustomStyleswhite.headerTextStyle,
@@ -252,7 +261,7 @@ class _MyUpiState extends State<MyUpi> {
   List<UpiApp>? apps;
 
   TextStyle header = const TextStyle(
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: FontWeight.bold,
   );
 
@@ -263,7 +272,7 @@ class _MyUpiState extends State<MyUpi> {
 
   @override
   void initState() {
-    _upiIndia.getAllUpiApps(mandatoryTransactionId: false).then((value) {
+    _upiIndia.getAllUpiApps(mandatoryTransactionId: true).then((value) {
       setState(() {
         apps = value;
       });
@@ -309,21 +318,26 @@ class _MyUpiState extends State<MyUpi> {
                   setState(() {});
                 },
                 child: Container(
-                  height: 100,
-                  width: 100,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.memory(
-                        app.icon,
-                        height: 60,
-                        width: 60,
-                      ),
-                      Text(app.name),
-                    ],
-                  ),
-                ),
+  height: 80,
+  width: 80,
+  child: Column(
+    children: [
+      CircleAvatar(
+        radius: 30, // Adjust the radius to control the size of the circular avatar
+        backgroundImage: MemoryImage(app.icon),
+        
+      ),
+
+       Text(
+      app.name,
+      style: TextStyle(
+        color: Colors.black, // Set text color
+      ),
+    )
+    ],
+  ),
+)
+
               );
             }).toList(),
           ),
@@ -353,18 +367,19 @@ class _MyUpiState extends State<MyUpi> {
     final id = store.getString("userId");
     switch (status) {
       case UpiPaymentStatus.SUCCESS:
-        break;
-      case UpiPaymentStatus.SUBMITTED:
-        print('Transaction Submitted');
-        break;
-      case UpiPaymentStatus.FAILURE:
-        var data = await apiService.userallType(data: {
+          var data = await apiService.userallType(data: {
           "id": id,
           "trans_id": txnId,
           "money": widget.transactionAmount,
           "payment_status": "SUCCESS"
         }, uri: "/add_money");
 
+        break;
+      case UpiPaymentStatus.SUBMITTED:
+        print('Transaction Submitted');
+        break;
+      case UpiPaymentStatus.FAILURE:
+    
         break;
       default:
         print('Received an Unknown transaction status');
@@ -390,9 +405,12 @@ class _MyUpiState extends State<MyUpi> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: <Widget>[
+         size20h,
+         size20h,
         Expanded(
+
           child: displayUpiApps(),
         ),
         Expanded(
@@ -446,32 +464,8 @@ class _MyUpiState extends State<MyUpi> {
             },
           ),
         ),
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () {},
-              child: GestureDetector(
-                onTap: () async {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  height: 50,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 10.5),
-                  alignment: Alignment.center,
-                  decoration:
-                      BoxDecoration(color: myColor, borderRadius: boRadius5),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15.0, horizontal: 20.5),
-                  child: Text(
-                    'Cancel',
-                    style: CustomStyleswhite.headerTextStyle,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
+    
+   
       ],
     );
   }

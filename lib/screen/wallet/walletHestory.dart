@@ -44,7 +44,7 @@ class _MyhestoryState extends State<Myhestory> {
           if (data != null) {
             return Column(
               children: [
-                titlebtn(HeadName: "MY History", context1: context, Headno: "See All", routes: "/hestoryWallet",),
+                titlebtn(HeadName: "MY History", context1: context, Headno: "See All", routes: "/historyWallet",),
                 size10h,
                 Container(
                   height: 550,

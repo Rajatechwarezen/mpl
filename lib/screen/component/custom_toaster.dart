@@ -29,8 +29,8 @@ class CustomToaster {
 showDialogBox(context,isAlertSet,setState,isDeviceConnected) => showCupertinoDialog<String>(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-          title: DefaultTextStyle(style:  CustomStyles.smallTextStyle,
-          child: const Text('No Connection')),
+          title:
+        Text('No Connection', style:  CustomStyles.smallTextStyle,),
           content:
       Text('Please check your internet connectivity',style: CustomStyles.smallTextStyle,),
           actions: <Widget>[

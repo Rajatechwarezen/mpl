@@ -20,64 +20,68 @@ class SeeMore extends StatelessWidget {
       body: Container(
         margin: GlobleglobleMargin.globleMargin,
         child: Column(children: [
-          Column(
-            children: [
-              Simpletitlebtn(
-                HeadName: "Documentation",
-              ),
-              
-              ListTile(
-                trailing: const Icon(Icons.arrow_forward),
-                leading: const Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                Text('Tream & Condition Policy', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                    Get.toNamed('/tarmAnd');
-                  
-                },
-              ),     
-          
-                    ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('About Us', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                  Get.toNamed('/myAboutus');
-                  
-                },
-              ),
-          
-                 ListTile(
-                trailing: Icon(Icons.arrow_forward),
-                leading: const Icon(
-                    Icons.info), // Change the icon to a different policy icon
-                title: Row(
-                  children: [
-                    Text('fql', style: CustomStyles.header2TextStyle),
-                 
-                  ],
-                ),
-                onTap: () {
-                  Get.toNamed('/fql');
-                  
-                },
-              ),
+     Column(
+  children: [
+    Simpletitlebtn(
+      HeadName: "Documentation",
+    ),
+    ListTile(
+      trailing: const Icon(Icons.arrow_forward),
+      leading: getIconForTitle("Terms & Condition Policy"),
+      title: Row(
+        children: [
+          Text('Terms & Condition Policy', style: CustomStyles.header2TextStyle),
         ],
-          )
-        ]),
+      ),
+      onTap: () {
+        Get.toNamed('/tarmAnd');
+      },
+    ),
+    ListTile(
+      trailing: Icon(Icons.arrow_forward),
+      leading: getIconForTitle("About Us"),
+      title: Row(
+        children: [
+          Text('About Us', style: CustomStyles.header2TextStyle),
+        ],
+      ),
+      onTap: () {
+        Get.toNamed('/myAboutus');
+      },
+    ),
+    ListTile(
+      trailing: Icon(Icons.arrow_forward),
+      leading: getIconForTitle("Faq"),
+      title: Row(
+        children: [
+          Text('Faq', style: CustomStyles.header2TextStyle),
+        ],
+      ),
+      onTap: () {
+        Get.toNamed('/faq');
+      },
+    ),
+  ],
+)
+
+   ]),
       ),
     );
+    
   }
 
+}
+
+Icon getIconForTitle(String title) {
+  switch (title) {
+    case "Terms & Condition Policy":
+      return Icon(Icons.info);
+    case "About Us":
+      return Icon(Icons.account_circle);
+    case "Faq":
+      return Icon(Icons.help);
+    // Add more cases for other titles as needed
+    default:
+      return Icon(Icons.info);
+  }
 }
